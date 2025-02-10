@@ -17,6 +17,20 @@
 <span style="color:yellow;"> Eli is a visiting scholar from Taiwan. She has is very knowledgeable  and skilled when it comes to synthesizing nanoparticles but </span> <span style="color:purple;">is unfamiliar with python.</span>  <span style="color:yellow;"> She is planning on using lipid nanoparticles with CD55 mRNA to glial cells to see if she can reverse neuroinflammation.</span> <span style="color:green;">  Before proceeding with her project to she wants to make sure that her nanoparticles are not unintentionally inducing inflamation in the brain so she want to look at the structure of the glial cells when she adds her nanoparticles.</span> <span style="color:blue;"> She needs the software that characterizes the structure of the cells to be easy to use and to have a good user interface.</span>
 
 ## Krista
+#### 1.
+<span style="color:yellow;"> Dana is a 5th year PhD student studying antimicrobial resistance. She is performing studies of how different combinations of antibiotics affect cell population growth. <span style="color:green;"> She wants to use this image analysis tool to analyze images taken of cell growth on plates to quickly enumerate different cell populations. <span style="color:pruple;"> She has limited experience in Python and <span style="color:blue;"> would benefit from an intuitive UI.
+
+#### 2. 
+<span style="color:yellow;"> Emma is a fourth year PhD student studying the role of microglia in Alzheimer's disease. <span style="color:green;"> She wants an image analysis tool that can easily identify microglia and enumerate from brain slice images. <span style="color:blue;"> She wants this tool to be user friendly and efficient so that she can use this tool from her own laptop at home. <span style="color:purple;"> She is advanced in Linux commands and Python.
+
+#### 3.
+<span style="color:yellow;"> Bella is a research scientist for a biotech company that wants to imrpove diagnostics. <span style="color:green;"> Bella wants to use an image analysis tool segment and identify different immune cell types from images of tissue slices. <span style="color:blue;"> She needs this tool to be accurate and fast so that she can quickly and correctly diagnose patients. <span style="color:purple;"> She has no coding experience, and would thus need a UI that provides helpful feedback about the images.
+
+#### 4. 
+<span style="color:yellow;"> Edward is an senior undergraduate researcher who just began research in a neuroscience lab. For his project, he is interested in how different disease states in the brain impact the spatial arrangements of cells in the brain. <span style="color:green;"> He wants an image analysis tool that can take in large images of entire brain slices and identify different cell types. <span style="color:blue;"> He would like this tool to give visual feedback of where the cells are being segmented. <span style="color:purple;"> He is an intermediate in Python, but is not familiar with Python's image analysis packages.
+
+#### 5.
+<span style="color:yellow;"> Jacob is a high school student who is curious about image analysis and neuroscience. <span style="color:green;"> He wants access to an image analysis tool that would offer example brain slice images and allow him to play around with different image segmentation parameters to learn how results might differ from different parameter choices. <span style="color:blue;"> He wants a user-friendly and educational UI that tells him about what each parameter does and offers flexibility in the image types he wants to analyze. <span style="color:purple;"> Jacob has no programming experience whatsoever.
 
 ## Muna
 
