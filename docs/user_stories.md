@@ -64,3 +64,19 @@
 <span style="color:yellow;"> Olivia is a second-year Master's student in computational neuroscience.</span> <span style="color:green;"> She is working on building predictive models for neuroinflammation and needs to extract morphological features from microglial images.</span> <span style="color:blue;"> She needs a tool that can export segmentation results as structured data (e.g., CSV, JSON) for downstream machine learning analysis.</span> <span style="color:purple;"> She is highly proficient in Python and prefers a scriptable API over a GUI.</span>  
 
 ## Sergi
+
+#### 1.
+<span style="color:yellow;">Lisa is a second-year Ph.D. student at the Mittal Lab.</span> <span style="color:green;">She wants to incorporate this tool to study TILs segmentation in breast tissue biopsy WSI.</span> <span style="color:blue;">She expects that this tool will help her better segment cells.</span> <span style="color:purple;">She is highly skilled in the field of threshold imaging.</span>
+
+#### 2.
+<span style="color:yellow;">Nic is a first-year Ph.D. student in the Department of Music.</span> <span style="color:green;">He aims to use this tool to investigate how brain cells respond to exposure to a specific melody over extended periods.</span> <span style="color:blue;">He expects that the tool will help him gain deeper insights into the brain’s neural responses and interactions with music.</span> <span style="color:purple;">Although he doesn't have a strong background in computational techniques, he is eager to learn and integrate them into his research.</span>
+
+#### 3.
+<span style="color:yellow;">Maria is a second-year Ph.D. student in the Department of Neuroscience.</span> <span style="color:green;">She intends to incorporate this tool to analyze the segmentation of neural cells, specifically microglia, in brain tissue samples.</span> <span style="color:blue;">She believes the tool will help her identify and quantify the role of microglia in neuroinflammation and neurodegenerative diseases more efficiently.</span> <span style="color:purple;">While Maria has a strong foundation in neuroscience, she is still learning the computational techniques necessary for advanced cell segmentation analysis.</span>
+
+#### 4.
+<span style="color:yellow;">Alex is a second-year Ph.D. student in the Department of Environmental Science.</span> <span style="color:green;">They are investigating how neural cells, such as microglia, respond to environmental toxins by using this tool for advanced segmentation and analysis of cell interactions in brain tissue samples.</span> <span style="color:blue;">Alex hopes that the tool will provide insights into the neuroimmune response to pollutants and how microglia contribute to brain health under stress.</span> <span style="color:purple;">Despite their limited experience with computational methods, Alex is eager to apply these techniques to study the intersection of environmental science and neuroscience.</span>
+
+#### 5.
+<span style="color:yellow;">Kristin is a undergraduate student at the Nance Lab..</span> <span style="color:green;"> SHe is working on living slices of mice brain of different age stages and hoping to better understand how the brain works and how it reacts to injuries, including traumatic brain injuries (TBI). </span> <span style="color:blue;">she hopes to get a better undestanding of such injuries.</span> <span style="color:purple;">She counts with a solid background in coding and programming and is looking forward to learn more.</span>
+
