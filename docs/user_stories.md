@@ -1,4 +1,18 @@
 ## Colin
+#### 1.
+<span style="color:yellow;"> Jalen is an undergraduate in the Disease-Directed Engineering Lab at UW. He was very excited to join a lab with baked goods and microscopes. <span style="color:green;"> He wants to use the improved python packages and associated functions to fine tune his research as it progresses. He also hopes to understand the underlying code to build his confidence in programming. <span style="color:blue;"> For his purposes, he wants a lot of markdown and documentation of the different functions inside the package so that he can better study the actual lines of code. <span style="color:purple;"> He is only familiar with Matlab and C and even those proficiencies are fleeting at best since he has not coded in a couple quarters.</span>
+
+#### 2.
+<span style="color:yellow;"> Devonta is a post doc with years of experience in neuromedicine and programming. He's hoping to develop tools to showcase the strength of academic research and the need for NIH funding. <span style="color:green;"> He wants to use the modified and reshaped code to give presentations to others with varying levels of data science and neuromedicine knowledge. <span style="color:blue;"> He needs the code to be able to produce good quality data with limited error to be able to present it externally. <span style="color:purple;"> He is a very experienced programmer and data scientist.</span> 
+
+#### 3.
+<span style="color:yellow;"> Saquon is a master's student in data science with limited expereience in bio-image processing. He likes how brain images can tell different stories. <span style="color:green;"> He wants to use the new packages and tools to be able to understand the cellular morphology of all brain cell types like astrocytes and oligodendrocytes. <span style="color:blue;"> For the expanded function set, he needs the image thresholding software to be able to parse the morphology of the oligodendrocytes for his thesis and interest in cells. <span style="color:purple;"> He has experience in coding, but not specifically with the image processing side.</span>
+
+#### 4.
+<span style="color:yellow;"> Cooper is a first-year PhD student in chemical engineering. He is really eager to prove to his PI that he can handle the pressures of grad school. <span style="color:green;"> He wants to use the new platform to hone his data science skills and build novel functions to add to the python package for use later in his graduate studies. <span style="color:blue;"> He needs the new python package to be easily amendable. He would also appreciate a good amount of markdown to be able to parse through it on his own and perform further code development. <span style="color:purple;"> While he has little experience in coding and brain biology, he is really enthusiastic.</span>
+
+#### 5.
+<span style="color:yellow;"> Darius is a fourth-year PhD student in bioengineering. He does not understand why chemical engineers think they are better than him since he can understand the cellular mechanisms without much thought. <span style="color:green;"> He wants to apply the imaging packages to his reseaarch in other biological systems like gut epithelial cells and tumors. <span style="color:blue;"> He would appreciate documentation on how code was tweaked for each cell type to be able to expand its range and utility. <span style="color:purple;"> He has basic coding knowledge, but a very strong understanding of cell biology.</span>
 
 ## Heather
 #### 1.
