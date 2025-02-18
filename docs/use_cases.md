@@ -1,5 +1,14 @@
 ## Colin
 _Based off of Krista's user stories_
+#### 1. For users like Dana, they want to use the image thresholding based on shape, but with a simple UI where they would not need to fine tune the code once it is set up. The software needs to be high throughput or at least be able to rapidly return analysis.
+
+#### 2. For users like Emma, they need an image processing pipeline that is effective for various conditions and in different brain environments. For use at home, it needs to have enough open access that a VPN would allow users to connect remotely.
+
+#### 3. For users like Bella, they need a software tool that rapidly diagnoses patients with minimal error. The tool would need to be able to segment more than just brain cells for tumors. A simple UI or GUI would be necessary for their skill level.
+
+#### 4. For users like Edward, they need a software tool that retains the original image or image regions for delivering feedback while also different brain cell types. An intuitive UI would be necessary for calling functions with the image segmenting/thresholding.
+
+#### 5. For users like Jacob, they need a database of example brain slices to practice with. Without coding experience, a simple UI or GUI with tunable parameters for image segmentation. The UI should also provide some sort of tutorial for them to follow and learn some of the coding and parameters.
 
 ## Heather
 
