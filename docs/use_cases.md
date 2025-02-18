@@ -11,7 +11,16 @@ _Based off of Krista's user stories_
 #### 5. For users like Jacob, they need a database of example brain slices to practice with. Without coding experience, a simple UI or GUI with tunable parameters for image segmentation. The UI should also provide some sort of tutorial for them to follow and learn some of the coding and parameters.
 
 ## Heather
+_Based off of Muna's user stories_
+#### 1. Maya needs an interface that is easy to use for someone with a limited backround in imaging which would mean that the interface should be intuitive and easy to navigate, promt the user to do the necesarry steps in order and offer explanations for each step.
 
+#### 2. Jaden wants a program that is able to automatically adjust for attentuation and differences in staining penetration for automatic thresholding. While ideally this would entail a ground truth image with perfect staining or well anotated images and machine learning to correct for these differences another approach (since we may not have that kind of data) may be to have parameters adjustable for the user by sliders and then manual correction if needed.
+
+#### 3. Amina wants to be able to save parameters and apply them to a folder of images in batches.
+
+#### 4. Ethan wants an interface that segments images and is easy to use.
+
+#### 5. Oliva wants a program that will output quantitave results to a csv file for later analyses.
 ## Krista
 _Based off of Colin's user stories_
 #### 1. Jalen's main priority for this code is learning. For users like Jalen, their main use case would be accessing, downloading, and reading the source code and documentation.
@@ -25,6 +34,8 @@ _Based off of Colin's user stories_
 #### 5. Darius wants to use this program to segment and analyze images of cells in other biological contexts. This means that the program should be robust. The imaging techniques and metrics should not be dependent on brain contexts. At the least, the program should allow Darius to modify parameters to tailor it for other specific biological contexts. With basic coding knowledge, Darius should be able to tweak these parameters directly from the command line or using a UI so that he himself does not need to download and modify the source code.
 
 ## Muna
+
+
 
 ## Sergi
 
