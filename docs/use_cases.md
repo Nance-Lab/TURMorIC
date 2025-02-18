@@ -27,3 +27,13 @@ _Based off of Colin's user stories_
 ## Muna
 
 ## Sergi
+
+#### 1. Tania wants to incorporate this package to improve her research on brain cell segmentation, which has so far only been performed through visual inspection. To enhance her experience, the software must provide clear instructions on how to input the images and execute the segmentation process. As Tania plans to continue analyzing the results, the software should also offer flexible plotting options to visualize the outcomes effectively. This will allow her to interpret the segmented images for each stain and gain deeper insights into the brain cells under study.
+
+#### 2. Nic wants to obtain information for his thesis on how different melodies of music impact brain cells. Since he has no background in programming nor sciences, the software must be as explicit and user-friendly as possible, allowing him to easily obtain results without dealing with complex computational aspects. It should generate clear, well-structured outputs that can be directly analyzed in his work, ensuring credibility and ease of integration into his study. Additionally, as Nic is already working on his thesis, the software should provide proper citation information for his research.
+
+#### 3. Maria aims to identify and segment oligodendrocytes for her research. However, since the images she obtains from her experiments are not standardized, the software must include preprocessing features such as flexible input handling and filtering options. Additionally, the documentation should be clear and comprehensive, providing detailed instructions on image preprocessing, segmentation parameters, and customization options to ensure ease of use for researchers with varying levels of computational expertise.
+
+#### 4. Alex seeks to study how microglia and other neural cells respond to environmental toxins in controlled settings. She intends to download and modify the code, so the package must be comprehensive and easily accessible. Additionally, clear licensing guidelines should be provided, as she plans to customize and adapt the software for her research.
+
+#### 5. Kristin wants to better understand traumatic brain injuries by incorporating visually aided analysis into her research. Since she produces several brain tissue images every day, the software must be able to efficiently process these image batches to meet her requirements. Additionally, it should include examples of similar analyses, allowing her to compare results and ensure consistency in her work.
