@@ -34,8 +34,16 @@ _Based off of Colin's user stories_
 #### 5. Darius wants to use this program to segment and analyze images of cells in other biological contexts. This means that the program should be robust. The imaging techniques and metrics should not be dependent on brain contexts. At the least, the program should allow Darius to modify parameters to tailor it for other specific biological contexts. With basic coding knowledge, Darius should be able to tweak these parameters directly from the command line or using a UI so that he himself does not need to download and modify the source code.
 
 ## Muna
+_Based off of Heather’s user stories
+#### 1. Ally needs an intuitive software interface that does not require coding expertise but allows them to visualize and analyze astrocyte structures. The tool should provide clear, step-by-step guidance and visual outputs to help them understand how astrocytes respond to polycarboxybetaine methacrylate hydrogel nanoparticles. The interface should focus on accessibility, enabling users with minimal programming experience to explore cellular structural changes with ease.
 
+#### 2. Basil requires a software tool that offers extensive customization for image filtering and processing parameters. Since he is proficient in C++ and interested in high-quality visual outputs, the software should allow fine-tuning of segmentation and filtering settings through an adjustable parameter interface. It should also support advanced visualization tools to ensure optimal image quality.
 
+#### 3. Camron needs a software tool that can apply machine learning techniques to analyze cellular interactions with nanoparticles. The tool should provide automated quantification of cell responses and structural changes, with an easy-to-use interface that enables non-expert users to navigate and interpret results efficiently. It should also support both Python and R integration for advanced statistical analyses.
+
+#### 4. Daria seeks a robust analytical tool for characterizing glial subpopulations and their structural responses to specific biochemical treatments. The software should allow in-depth morphological analysis with quantitative output metrics. Given her proficiency in Python, it should include an API for scripting and automation while also offering a graphical interface for initial explorations.
+
+#### 5. Eli requires a user-friendly software tool that provides structural characterization of glial cells in response to lipid nanoparticle treatments. The tool must prioritize ease of use with a well-designed GUI, enabling users unfamiliar with Python to perform image analysis confidently. Additionally, it should provide clear visual feedback to assess whether her nanoparticles induce neuroinflammation.
 
 ## Sergi
 
