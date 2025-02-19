@@ -1,7 +1,7 @@
 ## Colin
 
--Documentation and markdown to describe how code works
-\n-Code markdowns with non-Python specific explanations
+-Documentation and markdown to describe how code works\n
+-Code markdowns with non-Python specific explanations
 \n-Presentation-worthy outputs
 \n-Retrievable errors associated with analysis functions
 \n-Accompanying documentation on how to analyze output
