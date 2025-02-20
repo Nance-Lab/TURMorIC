@@ -205,7 +205,7 @@ Components:
   
 2. Function for Multi-Stain Image Segmentation/identification and classification:
 
-   What it does: A function that can segment and process images with different stain types, specifically tailored for microglia and oligodendrocytes in WSI brain images.w
+   What it does: A function that can segment and process images with different stain types, specifically tailored for microglia and oligodendrocytes in WSI brain images.
 
    Inputs: Whole Slide Images (WSI) of brain tissue with two distinct stains (for microglia and oligodendrocytes). Image metadata (such as stain type, resolution, and other 
    relevant conditions).
