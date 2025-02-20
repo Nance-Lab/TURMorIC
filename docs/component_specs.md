@@ -183,6 +183,18 @@ Helper Functions:
 •	vampire(): Initializes and runs the GUI loop.
 
 ## Krista
+### 1. UI Window
+This is a display that users can easily interact with. This UI window should have a clear button users can press to begin the image analyhsis proces. Pressing this button should open the user's file browser, asking for the user to designate which directory their images are and then asking for the user to name a new directory or select an existing directory where their processed images will be stored. The UI should then continue to display messages to the user describing its process and a sample of some of the segemented images.
+
+### 2. Image Preprocessing Function
+This is a function in the program package that opens takes in a file (or list of files) and first verifies a valid image format (.tiff). It should then split the image into sections and adjust the image so that segmentation runs smoothly (removing background noise and adjusting contrast). This function should output the preprocessed images into the new directory that the user designated.
+
+### 3. Segmentation Function
+This is a function in the program that should take the preprocessed images and segment them based off a given threshold value. While segmenting, it should keep track of segmented cell properties such as size and circularity. It should also keep track of group properties such as density, clustering, and maybe total cell counts. This function should output the segmented images into the new directory that the user designated (perhaps in a new subdirectory so that the segmented images don't get mixed with the preprocessed images).
+
+### 4. Machine Learning Function
+This is a function that takes in the segmented images and applies a machine learning analysis to categorize the different cell types (for this project's specific use case, it should differentiate microglia and glial cells). This function should label the different cells in the images, perhaps by changing the segment outline color to depend on the cell type. This function should also output any graphical analysis into a new image. It should also keep track of properties of the different cell types in a separate .csv file.
+
 
 ## Muna
 Components:
