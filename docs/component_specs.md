@@ -186,3 +186,102 @@ Helper Functions:
 ## Muna
 
 ## Sergi
+Components: 
+
+1.  Image Preprocessing Functions:
+
+    What it does: This component formats, filters, and enhances images based on file type and quality, preparing them for further analysis. It handles variations in image 
+    formats, pixel qualities, and noise levels, ensuring that the images are standardized and optimized for tasks like segmentation and classification.
+
+    Inputs: Image files in various formats (e.g., TIFF, PNG, JPEG, etc.). Image metadata (e.g., pixel dimensions, quality, stain type).Optional user-defined parameters for 
+    customization (e.g., noise threshold, contrast levels).
+
+    Outputs: Preprocessed, standardized images ready for segmentation or analysis on a separated file directory. Error or warning logs indicating any issues with image 
+    quality or unsupported formats. A report or visual output demonstrating the before-and-after effects of preprocessing, such as improved contrast or reduced noise.
+
+    How it uses other components: Function for Multi-Stain Image Segmentation/Identification and Classification (the preprocessed images are passed to the segmentation 
+    function afterwards). Proper preprocessing helps ensure that these images meet the quality standards required for effective segmentation. Quantification Metrics (after 
+    preprocessing, the images are used for quantification tasks (e.g., counting cells or measuring areas), ensuring that the data fed into these metrics is standarized).
+  
+2. Function for Multi-Stain Image Segmentation/identification and classification:
+   What it does: A function that can segment and process images with different stain types, specifically tailored for microglia and oligodendrocytes in WSI brain images.w
+
+   Inputs: Whole Slide Images (WSI) of brain tissue with two distinct stains (for microglia and oligodendrocytes). Image metadata (such as stain type, resolution, and other    relevant conditions).
+
+   Outputs:Segmented regions identifying microglia and oligodendrocytes in the images. Classification results of segmented regions, indicating whether the cell is         
+   microglia, oligodendrocyte, or other cell types. A visual output with highlighted regions corresponding to the identified cells. A CSV or similar file containing the 
+   count of identified cell types along with their spatial information.
+
+   How it uses other components: Image Preprocessing Functions (Before segmentation, the function uses image preprocessing components to enhance the quality and 
+   consistency). Interactive GUI (It interacts with an interactive graphical user interface (GUI) to provide real-time feedback, allowing users to adjust 
+   parameters (e.g., thresholds or stain sensitivity) as needed for refinement).
+   
+3. Interactive GUI for Image Segmentation and Analysis:
+   What it does: This component provides a simple and intuitive graphical user interface (GUI) that allows users to interact with images without needing to     
+   dive into the code. It enables users to view images, adjust segmentation thresholds, and customize settings (e.g., contrast, resolution) in real-time.
+
+   Inputs: Preprocessed Image files for segmentation and analysis (e.g., brain tissue slices), User inputs for threshold adjustments and visualization preferences (e.g., 
+   adjusting stain sensitivity, zooming in on areas of interest).
+
+   Outputs: Interactive display of images with real-time segmentation overlays. Visual feedback on changes made to thresholds, stain sensitivity, or resolution adjustments.
+   Output files containing the adjusted parameters and segmented images ready for further analysis or export).
+   
+   How it uses other components: Image Preprocessing Functions (The GUI interfaces with image preprocessing functions to allow users to view and adjust preprocessed images, 
+   it ensures that the images presented for segmentation are enhanced and standardized). Function for Image Segmentation/Identification and Classification (the GUI provides 
+   real-time feedback on the segmentation process. Quantification Metrics (After segmentation, the GUI can display real-time quantification metrics (e.g., cell 
+   count, area measurement) for the brain cells, allowingusers to assess and modify parameters for optimal results.
+
+5. Documentation for Non-Programmers/all level users:
+
+   What it does: This component provides non-technical documentation aimed at users with no programming experience. It explains the tool’s outputs and guides users on how 
+   to interpret them, ensuring that individuals like Kristin and Tania can effectively use the tool for their research without needing to understand the underlying code. 
+   The documentation includes step-by-step instructions, explanations of key concepts, and visual aids, and instructions on how to cite this tool when used by users.
+
+   Inputs: Descriptions of common image analysis tasks (e.g., cell segmentation, threshold adjustment).
+
+   Outputs: Comprehensive guides detailing how to interpret segmentation results, understanding segmentation overlays, and reviewing performance metrics. Visual aids (e.g., 
+   annotated images, flowcharts) to demonstrate common tasks, making it easier for non-technical users to follow along. Glossary of terms to help users understand key 
+   concepts.
+
+   How it uses other components: Interactive GUI for Image Segmentation and Analysis (The documentation provides guidance on how to use the GUI, including how to adjust 
+   settings, interact with images, and interpret the results). Image Preprocessing Functions (the documentation explains how the preprocessing functions work and why they 
+   are important. Function for Image Segmentation/Identification and Classification (it provides clear explanations of the segmentation process, helping users understand 
+   how the tool differentiates between cells and how they can interpret the segmented images. Quantification Metrics: The documentation explains the quantification metrics 
+   output by the tool.
+
+6. Quantification Metrics:
+
+   What it does: Function that automatically quantify microglia and oligodendrocytes based on their segmentation, including cell shape and counts, area, and morphology 
+   measurements. 
+
+   Inputs: Segmented images containing microglia and oligodendrocytes (e.g., from previous segmentation steps).
+
+   Output: Cell count (The number of microglia and oligodendrocytes identified in the segmented images), Area measurements; the area (in pixels or physical units) occupied 
+   by the microglia and oligodendrocytes. Morphological data: Key morphological features of the cells (e.g., cell perimeter, aspect ratio, shape descriptors like 
+   circularity, elongation).
+
+   How it uses other components: Image Preprocessing Functions (the quantification functions rely on preprocessed images to ensure that the data being analyzed is of high 
+   quality, with noise removed and contrast enhanced for accurate measurements). Function for Image Segmentation/Identification and Classification (The quantification 
+   functions work directly with the results from the segmentation functions to count and measure the identified microglia and oligodendrocytes). Interactive GUI for Image 
+   Segmentation and Analysis (users can adjust segmentation parameters using the GUI, and the quantification metrics update in real-time to reflect the changes made).
+   Documentation for Non-Programmers (the documentation helps users understand the quantification outputs by explaining the meaning of the different metrics, e.g. what the 
+   cell count represents or how to interpret the morphological data)
+   
+7. Demo Data Set for new users/ Training Data examples:
+
+    What it does: This component provides a curated set of brain tissue images from a compilation of experiments, along with a pre-existing training dataset for testing and 
+    validating algorithms. This dataset includes both raw and processed images, annotations, and ground truth labels for different cell types and injury stages to 
+    facilitate the testing and validation of segmentation and classification algorithms.
+
+    Inputs: Raw image data from demo experiments (e.g., brain tissue slices from different injury stages), Pre-processed data with annotations or labeled cells (e.g.,     
+    microglia, oligodendrocytes). 
+
+    Outputs: Segmented images showing cells and other relevant structures, with labels indicating the classification of different cell types (e.g., microglia, 
+    oligodendrocytes).Performance metrics (e.g., accuracy, precision, recall) of segmentation algorithms on the provided data. A test report summarizing the metrics and 
+    providing a brief analysis on those. Visual outputs showing comparative results of the original versus segmented images.
+
+    How it uses other components: Image Preprocessing Functions: The demo dataset leverages preprocessing functions to standardize and enhance images before they are used 
+    in train and testing or real-world analysis. Function for Multi-Stain Image Segmentation/Identification and Classification (the dataset is used to test and validate 
+    segmentation algorithms tailored to different brain cell types, including microglia and oligodendrocytes. It provides a testbed for assessing how well these functions 
+    can classify cells in user-provided images) Quantification Metrics: The example data set is analyzed using quantification tools to assess the number and type of cells 
+    identified in the WSI images.
