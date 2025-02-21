@@ -35,6 +35,7 @@ MainWindow(QWidget):
     •	Update_Controls: updates the values of the controls on the GUI and the page
     •	Update_Image: updates the image displayed on the GUI
     •	Update_Parameters: updates the parameter shown on the GUI
+________________________________________
 CentralNode(QObject):
     Description: controls the backend of the GUI
     Important parameters and roles:
@@ -48,6 +49,7 @@ CentralNode(QObject):
     •	Update_Image: updates the image displayed on the GUI
     •	Update_Controls: updates the values of the controls on the backend
     •	Stores and sets file paths for saving parameters and images
+________________________________________
 ImageNode(QThread):
     Description: controls the image display of the GUI
     Important parameters and roles:
@@ -55,6 +57,7 @@ ImageNode(QThread):
     •	Updates the image displayed on the GUI based on current parameters and control_index
     Functions:
     •	Sends image signal to central node to update the image
+________________________________________
 FunctionNode(QObject):
     Description: controls the way that functions are called and executed (ie async, lazy, ect)
     Important parameters and roles:
@@ -62,6 +65,8 @@ FunctionNode(QObject):
     •	Stores the current state of the functions and parameters
     Functions:
     •	Execute_Function: executes the function based on the current parameters and control_index
+
+________________________________________
 Exec_Function(QThread):
     Description: executes the function in a separate thread
     Important parameters and roles:
@@ -71,6 +76,7 @@ Exec_Function(QThread):
     •	run: executes the function in a separate thread
     •	Update_Function: updates the function based on the current parameters and control_index
     •	Function wrappers: functions that wrap the actual function to be executed from Support_function.py
+________________________________________
 
 Pages of GUI:
     •	FirstPage: ask if you want to upload parameters for batch process or go through the parameter selection process
@@ -84,12 +90,16 @@ Pages of GUI:
 
     •	FinalPage: displays results and asks if you want to save results and/or parameters
 
+________________________________________
+
 Support_function.py:
 •	Description: Contains the core functions for VAMPIRE analysis.
 •	Important Parameters and Roles:
 o	Handles data processing tasks such as filtering, thresholding, PCA, and clustering.
 o	Interacts with the mainbody.py to execute the analysis pipeline.
 o	Contains functions for data manipulation and analysis.
+
+________________________________________
 
 Added functions:
 Workflow:
@@ -100,6 +110,7 @@ Workflow:
         Renames and organizes images for VAMPIRE analysis according to a specific naming convention.
         Creates CSV files to store model-building and application information.
         Invokes VAMPIRE analysis at the end, passing relevant paths to the model.
+________________________________________
 
 Coloring Segmented Images According to Shape Mode:
     Description: Colors segmented images based on shape modes with custom colors, visualizing the output, and saving the recolored images.
@@ -108,6 +119,8 @@ Coloring Segmented Images According to Shape Mode:
         Applies specific colors to different shape modes (Blue, Orange, Green, Red, Purple).
         Automates labeling for multiple images based on provided file paths.
         Saves the recolored images at specified output paths.
+
+________________________________________
 
 Thresholding:
     Description: Tests and applies various thresholding techniques from Sci-kit Image on images.
@@ -118,6 +131,8 @@ Thresholding:
         Performs analysis to determine the optimal threshold (Li threshold) for microglia identification based on visual inspection.
         Removes small objects below a size threshold (based on microglia size) using Sci-kit's morphology functions.
 
+________________________________________
+
 Microglia OGD Cell Analysis:
     Description: Quantifies cell features of already segmented microglia images using multiple image analysis techniques.
     Important Parameters and Roles:
@@ -126,6 +141,7 @@ Microglia OGD Cell Analysis:
         Calculates additional features like circularity and aspect ratio for microglia cells.
         Saves the results in a CSV file, including the properties of all segmented cells.
         Generates a summary CSV file with average properties for each image.
+________________________________________
 
 Current components of codebase:
 vampire.py:
