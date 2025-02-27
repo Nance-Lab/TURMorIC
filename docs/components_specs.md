@@ -56,6 +56,7 @@ The **Image Preprocessing Component** prepares raw microscopy images for segment
 - **Renames and organizes images** for VAMPIRE analysis according to a specific naming convention.
 - **Saves the recolored images** at specified output paths.
 - **Sends colored image files** to the GUI
+- **Spits out warning not error** if inputting an image that has already been split asking user if they want to continue and overwrite quad images
 
 
 ## **Adaptive Thresholding Component**  
