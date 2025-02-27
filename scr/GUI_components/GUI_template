@@ -1,0 +1,35 @@
+from PyQt5 import QtWidgets, QtGui, QtC pyqt5.core
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QHBoxLayout
+
+
+class CentralNode(QObject):
+    def __init__(self):
+
+class ThreadController(QObject):
+    def __init__(self):
+
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("GUI template")
+        self.setGeometry(0, 0, 800, 500)
+        # Initializes layouts
+        outerLayout = QVBoxLayout()
+        topLayout = QVBoxLayout()
+        buttonLayout = QHBoxLayout()
+
+        # 
+        self.Image_Display1 = QLabel(self)
+        self.Image_Display1.setFixedSize(640, 480)
+
+        # Nests layouts
+        outerLayout.addLayout(topLayout)
+        outerLayout.addLayout(buttonLayout)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
