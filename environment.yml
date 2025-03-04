@@ -1,0 +1,10 @@
+name: nosferatu
+channels:
+  - conda-forge
+dependencies:
+  - numpy>=2.2.2
+  - pandas>=2.2.3
+  - scikit-learn>=1.6.1
+  - scikit-image>=1.3.2
+  - pip:
+        - pyqt6
