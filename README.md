@@ -1,2 +1,3 @@
 # Planning
-Developers: Krista
+
+Developer: Colin L, Krista
