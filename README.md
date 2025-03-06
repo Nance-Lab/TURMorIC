@@ -1,4 +1,3 @@
-
-#Sergio_Mayta 
-#PR_TRY
 # Planning
+
+Developer: Colin L, Krista, Sergi M, 
