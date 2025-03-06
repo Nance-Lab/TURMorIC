@@ -8,3 +8,4 @@ dependencies:
   - scikit-image>=0.25.0
   - pip:
         - pyqt6
+        - opencv-python
