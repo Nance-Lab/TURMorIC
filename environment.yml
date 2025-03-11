@@ -6,7 +6,7 @@ dependencies:
   - pandas>=2.2.3
   - scikit-learn>=1.6.1
   - scikit-image>=0.25.0
-  - pytest>=6.2.5
+  - pytest>=8.0.0
   - pip:
         - pyqt6
         - opencv-python
