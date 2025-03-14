@@ -1,12 +1,19 @@
-import sys
 from PyQt6.QtWidgets import (QApplication, QWidget,
         QVBoxLayout, QPushButton, QLabel, QLineEdit,
           QProgressBar, QFileDialog, QHBoxLayout, 
           QGridLayout, QStackedWidget,QIntValidator)
 from PyQt6.QtCore import Qt, pyqtSignal,pyqtSlot, QThread, QObject
 from PyQt6.QtGui import QImage, QPixmap
+
+import sys
 from datetime import datetime
 import pickle
+
+# Imports for MainWindow upon coming file split
+from central_node import CentralNode
+from thread_controller import ThreadController
+from image_handler import ImageHandler
+from build_model import BuildModel
 
 class CentralNode(QObject):
     """
