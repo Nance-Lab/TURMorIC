@@ -7,7 +7,6 @@ from PyQt6.QtCore import Qt, pyqtSignal,pyqtSlot, QThread, QObject
 from PyQt6.QtGui import QImage, QPixmap
 from datetime import datetime
 import pickle
-/home/hwood/Planning/scr/GUI_components/GUI_template
 
 class CentralNode(QObject):
     """
