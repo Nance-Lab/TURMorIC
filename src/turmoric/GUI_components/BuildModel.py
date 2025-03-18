@@ -26,7 +26,7 @@ class BuildModel(QThread):
     progress_changed = pyqtSignal(int)
     status_updated = pyqtSignal(str)
 
-    def __init__(self, build_model, csv, entries, outpth=None,n_clusters=None):
+    def __init__(self, build_model, csv, entries, outpth=None, clnum=None):
         """
         Initializes the Worker object with the specified parameters for background processing.
         

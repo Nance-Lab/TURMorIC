@@ -1,7 +1,7 @@
 # import module or package here
 import unittest
 import random
-import numpy
+import numpy as np
 import os
 
 class TestPreprocessing(unittest.TestCase):
