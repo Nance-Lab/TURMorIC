@@ -5,6 +5,8 @@ dependencies:
   - numpy>=2.2.2
   - pandas>=2.2.3
   - scikit-learn>=1.6.1
+  - scikit-image>=0.25.0
+  - matplotlib>=3.10.1
   - pytest>=8.3.4
   - _libgcc_mutex>=0.1
   - _openmp_mutex>=4.5
