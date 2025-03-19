@@ -41,7 +41,7 @@ run in terminal:
 &nbsp;    
 git clone https://github.com/Nance-Lab-Brain-Image/TURMorIC.git
 &nbsp;  
-cd TURMERIC
+cd TURMorIC/
 &nbsp;  
 2. Create a virtual environment
 
