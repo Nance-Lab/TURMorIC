@@ -35,12 +35,14 @@ Python version 3.8 or higher.
 Git for cloning the repository.
 1. Clone the repository
 Start by cloning the repository to your local machine:
-
+&nbsp;  
 bash
+&nbsp;  
 Copy
+&nbsp;  
 git clone https://github.com/YourUsername/TURMERIC.git
 cd TURMERIC
-2. Create a virtual environment (optional but recommended)
+3. Create a virtual environment (optional but recommended)
 It's a good practice to create a virtual environment to isolate dependencies:
 
 bash
