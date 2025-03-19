@@ -3,12 +3,10 @@
 Description:Controls the interface displays and passes commands to the backend
 -Connects to CentralNode class to pass commands to backend
 -Stores button names, default values, positions, and page orders
-
 Use Case:
 -Allows the user to interact with the system easily by providing an intuitive, user-friendly interface with clearly defined buttons and controls.
 -Users want an error-free experience, and the GUI automatically handles input validation and error checking to ensure that the system behaves predictably.
 -Users desire convenience, and the GUI can remember their settings across different sessions, ensuring they don’t have to re-enter their preferences every time.
-  
 Displays controls and images
 -Important parameters and roles:
 -General_Layout: Creates layout for pages.
@@ -18,14 +16,12 @@ Displays controls and images
 -Page_Buttons: Keeps track of buttons on the current page.
 -Page_Controls: Keeps track of controls on the current page.
 -Page_Controls_Layout: Creates layout for controls.
-
 Functions:
 -Generate_Page: Generates a page for the GUI which may contain unique buttons or controls.
 -Generate_Controls: Generates buttons, dropdowns, and sliders for the GUI.
 -Update_Controls: Updates the values of the controls on the GUI and the page.
 -Update_Image: Updates the image displayed on the GUI.
 -Update_Parameters: Updates the parameters shown on the GUI.
-
 Pages of GUI:
 -FirstPage: Ask if you want to upload parameters for a batch process or go through the parameter selection process.
 -SecondPageA: Filters and thresholding.
