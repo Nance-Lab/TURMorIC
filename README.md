@@ -12,7 +12,7 @@ This repository contains the test functions for the updated VAMPIRE (Visually Ai
 - the docs, example_dataset, notebooks, src, and test directories (detailed below)
 
 # docs Directory 
-This directory contains documents related to the initial design process for the software package including use cases, user stories, and identified components as well as the team logo and details on the GUI. 
+This directory contains documents related to the initial design process for the software package including use cases, user stories, and identified components as well as the team logo and details on the GUI. Finally, there is a slide deck with a presentation given to the CHEM E 546: Software Engineering for Molecular Science and Engineering showcasing the design process of the TURMorIC project.
 
 # example_dataset Directory
 This directory includes example .tiff images and expected outputs, like shape mode distribution, for the preprocessing as well as some examples of the segmentation process as well. These serve as potential practice images for understanding the existing code pipeline.
