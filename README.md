@@ -35,6 +35,7 @@ Python version 3.8 or higher.
 Git for cloning the repository.
 1. Clone the repository
 Start by cloning the repository to your local machine:
+
 &nbsp;
 run in terminal:
 &nbsp;    
@@ -42,15 +43,17 @@ git clone https://github.com/Nance-Lab-Brain-Image/TURMorIC.git
 &nbsp;  
 cd TURMERIC
 &nbsp;  
-3. Create a virtual environment
+2. Create a virtual environment
+
 &nbsp;
 run in terminal:
 &nbsp;  
 python -m venv env
 &nbsp;  
-Activate the virtual environment:
+3. Activate the virtual environment:
 &nbsp;  
 On macOS/Linux:
+
 &nbsp;
 run in terminal:
 &nbsp;   
@@ -58,18 +61,21 @@ source env/bin/activate
 &nbsp;  
 On Windows:
 &nbsp;
+
 run in terminal:
 &nbsp;   
 .\env\Scripts\activate
 &nbsp;  
-3. Install dependencies
+4. Install dependencies
 Once the environment is set up, install the required dependencies.
+
 &nbsp;
 run in terminal:
 &nbsp;  
 conda env create -f environment.yml
 &nbsp;  
 Activate the Conda environment:  
+
 &nbsp;
 run in terminal:
 &nbsp; 
@@ -82,6 +88,7 @@ After setting up the environment, you can use the TURMERIC package to perform br
 
 # Run the GUI:
 The user interface for image processing and model building is located in the src/GUI directory. You can run the main GUI file from there. Currently its functions include loading an image, applying a thresholding binary filter and saving the image.
+
 &nbsp;
 run in terminal:
 &nbsp;    
@@ -89,6 +96,7 @@ python src/GUI_components/MainWindow.py
 
 # Run Tests:
 To verify if everything is working correctly, run the tests in the test/ directory.
+
 &nbsp;
 run in terminal:
 &nbsp;    
