@@ -33,6 +33,7 @@ To get started with TURMERIC, follow these steps:
 Prerequisites:
 Python version 3.8 or higher.
 Git for cloning the repository.
+
 1. Clone the repository
 Start by cloning the repository to your local machine:
 
@@ -43,6 +44,7 @@ git clone https://github.com/Nance-Lab-Brain-Image/TURMorIC.git
 &nbsp;  
 cd TURMorIC/
 &nbsp;  
+
 2. Create a virtual environment
 
 &nbsp;
@@ -50,6 +52,7 @@ run in terminal:
 &nbsp;  
 python -m venv env
 &nbsp;  
+
 3. Activate the virtual environment:
 &nbsp;  
 On macOS/Linux:
@@ -66,6 +69,7 @@ run in terminal:
 &nbsp;   
 .\env\Scripts\activate
 &nbsp;  
+
 4. Install dependencies
 Once the environment is set up, install the required dependencies.
 
