@@ -27,7 +27,7 @@ This directory contains all of the source code for the functions of the TURMorIC
 # test Directory 
 This directory holds all of the test functions for each of the components. This includes functions to test if the image directory exists, cleaning the file and folder paths, adjusting contrast among other preprocessing steps.
 
-# **Installation Instructions **
+**Installation Instructions **
 To get started with TURMERIC, follow these steps:
 
 Prerequisites:
@@ -35,41 +35,46 @@ Python version 3.8 or higher.
 Git for cloning the repository.
 1. Clone the repository
 Start by cloning the repository to your local machine:
+&nbsp;
+run in terminal:
+&nbsp;    
+git clone https://github.com/Nance-Lab-Brain-Image/TURMorIC.git
 &nbsp;  
-bash
-&nbsp;  
-Copy
-&nbsp;  
-git clone https://github.com/YourUsername/TURMERIC.git
 cd TURMERIC
-3. Create a virtual environment (optional but recommended)
-It's a good practice to create a virtual environment to isolate dependencies:
-
-bash
-Copy
+&nbsp;  
+3. Create a virtual environment
+&nbsp;
+run in terminal:
+&nbsp;  
 python -m venv env
+&nbsp;  
 Activate the virtual environment:
-
+&nbsp;  
 On macOS/Linux:
-bash
-Copy
+&nbsp;
+run in terminal:
+&nbsp;   
 source env/bin/activate
+&nbsp;  
 On Windows:
-bash
-Copy
+&nbsp;
+run in terminal:
+&nbsp;   
 .\env\Scripts\activate
+&nbsp;  
 3. Install dependencies
 Once the environment is set up, install the required dependencies.
-
-bash
-Copy
+&nbsp;
+run in terminal:
+&nbsp;  
 conda env create -f environment.yml
-Activate the Conda environment:
-
-bash
-Copy
+&nbsp;  
+Activate the Conda environment:  
+&nbsp;
+run in terminal:
+&nbsp; 
 conda activate TURMERIC
-
+&nbsp;  
 This will install all necessary Python packages for the project.
 
 ## **Usage Instructions**
@@ -77,14 +82,16 @@ After setting up the environment, you can use the TURMERIC package to perform br
 
 # Run the GUI:
 The user interface for image processing and model building is located in the src/GUI directory. You can run the main GUI file from there. Currently its functions include loading an image, applying a thresholding binary filter and saving the image.
-bash
-Copy
+&nbsp;
+run in terminal:
+&nbsp;    
 python src/GUI_components/MainWindow.py
 
 # Run Tests:
 To verify if everything is working correctly, run the tests in the test/ directory.
-bash
-Copy
+&nbsp;
+run in terminal:
+&nbsp;    
 pytest
 
 Example Datasets
