@@ -3,8 +3,21 @@ import shutil
 import random
 from collections import defaultdict
 
+# Define your base directory and target directories for training and testing
+base_dir = "/Users/nelsschimek/Documents/nancelab/Data/caffeine"
+train_dir = "/Users/nelsschimek/Documents/nancelab/Data/caffeine/training"
+test_dir = "/Users/nelsschimek/Documents/nancelab/Data/caffeine/testing"
+
+# Define a list of subfolder names or patterns to look for
+treatment_conditions = ["treatment_A", "treatment_B", "treatment_C", "treatment_D", "treatment_E"]
+groups = ["cortex", "hippocampus", "BG", "thalamus", "ScWM", "corpus_col"]
+
+# Create training and testing directories if they don't exist
+os.makedirs(train_dir, exist_ok=True)
+os.makedirs(test_dir, exist_ok=True)
+
 # Function to organize files into training and testing folders without slice leakage
-def organize_files_without_leakage(base_dir, train_dir, test_dir, groups, treatment_conditions, test_size=0.2):
+def organize_files_without_leakage(base_dir, train_dir, test_dir, test_size=0.2):
     for group in groups:
         for condition in treatment_conditions:
             condition_path = os.path.join(base_dir, group, condition)
@@ -44,3 +57,6 @@ def organize_files_without_leakage(base_dir, train_dir, test_dir, groups, treatm
             for slice_id in test_slices:
                 for file in slice_files[slice_id]:
                     shutil.copy(os.path.join(condition_path, file), os.path.join(test_subdir, file))
+
+# Call the function to organize the files
+organize_files_without_leakage(base_dir, train_dir, test_dir)

@@ -58,3 +58,15 @@ def apply_li_threshold(input_folder, output_folder, min_object_size=71):
                     print(f"Error processing {input_path}: {e}")
 
     print(f"Processing completed. Results are saved in '{output_folder}'.")
+
+# Example usage
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) != 3:
+        print("Usage: python li_threshold.py <input_folder> <output_folder>")
+        sys.exit(1)
+
+    input_folder = sys.argv[1]
+    output_folder = sys.argv[2]
+    apply_li_threshold(input_folder, output_folder)
