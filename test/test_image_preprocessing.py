@@ -2,7 +2,7 @@
 # The script also includes unit tests to validate the image processing functions.
 import cv2 # OpenCV library
 import numpy as np # Numpy library
-import unittest # Unit testing library
+import pytest # Unit testing library
 import os # Operating system library
 
 def split_image_into_quadrants(image: np.ndarray): # Function to split image into 4 quadrants
@@ -63,7 +63,7 @@ def generate_image_with_variations(): # Function to generate an image with inten
     image = np.linspace(50, 200, 100 * 100 * 3).reshape(100, 100, 3).astype(np.uint8) # Create an image with intensity variations
     return image
 
-class TestImageProcessing(unittest.TestCase):
+class TestImageProcessing(pytest.TestCase):
     def setUp(self): # Set up the test case
         self.image = np.ones((100, 100, 3), dtype=np.uint8) * 255  # White image
     
@@ -93,5 +93,3 @@ if __name__ == "__main__":
         print(f"Processed images saved in: {output_directory}")
     except Exception as e:
         print(f"Error: {e}")
-    
-    unittest.main()

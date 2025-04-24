@@ -7,7 +7,7 @@ import pandas as pd
 from skimage import io #loads image as a numpy array
 import matplotlib.pyplot as plt
 from PIL import Image #pillow library used for loading images or saving
-import unittest
+import pytest
 import tempfile
 
 #######################################
@@ -156,7 +156,7 @@ move_stain_images(folder_location,stain1,stain2)
 
 #Function 1
 
-class TestFolderCleaner(unittest.TestCase):
+class TestFolderCleaner(pytest.TestCase):
 
     def test_format_types(self):
         """Ensures folder cleaner function is abble to handle different files type"""
@@ -203,12 +203,10 @@ class TestFolderCleaner(unittest.TestCase):
                 self.assertTrue(all(file.endswith(image_type) for file in cleaned_files), 
                                 f"Some files do not match {image_type}: {cleaned_files}")
                 print(f"Filtered images for {image_type}: {cleaned_files}")
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
 
 #Function 2
 
-class TestListToArray(unittest.TestCase):
+class TestListToArray(pytest.TestCase):
 
     def test_non_empty_list(self):
         """Test conversion of a non-empty list to a NumPy array"""
@@ -239,12 +237,9 @@ class TestListToArray(unittest.TestCase):
         self.assertIsInstance(result, np.ndarray, "The result should be a NumPy array")
         self.assertEqual(result.tolist(), [item.tolist() for item in file_list], "The arrays inside the list should be converted correctly")
 
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
-
 #Function 3
 
-class TestExtractChannels(unittest.TestCase):
+class TestExtractChannels(pytest.TestCase):
      
     def test_missing_channels(self):
         """Ensures images without 2 channels can be processed or fails gracefully"""
@@ -281,13 +276,9 @@ class TestExtractChannels(unittest.TestCase):
             except MemoryError:
               print(f"MemoryError: The image {file_name} is too large to process.")
         
-
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
-
 #Function 4
 
-class TestMoveStainImages(unittest.TestCase):
+class TestMoveStainImages(pytest.TestCase):
 
     def setUp(self):
         """Set up test environment."""
@@ -350,6 +341,3 @@ class TestMoveStainImages(unittest.TestCase):
             duplicate_file = os.path.join(stain_folder, f"sample1_{stain}.png")
             with open(duplicate_file, 'w') as f:
                 f.write(f"duplicate test for {stain}")
-
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
