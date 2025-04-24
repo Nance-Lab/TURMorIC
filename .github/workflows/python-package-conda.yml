@@ -20,11 +20,10 @@ jobs:
         miniforge-version: latest
         python-version: ${{ matrix.python-version }}
         environment-file: environment.yaml
-        activate-environment: environment.yaml
+        activate-environment: environment.yml
         run-post: false
     - name: Install dependencies
       run: |
-        conda env update --file environment.yml --name base
         python -m pip install flake8 pytest coverage pytest-cov
     - name: Lint with flake8
       run: |
