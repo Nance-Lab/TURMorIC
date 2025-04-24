@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
+    defaults:
+      run:
+      # Adding -l {0} helps ensure conda can be found properly.
+        shell: bash -l {0}
 
     steps:
     - uses: actions/checkout@v4
@@ -34,8 +38,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        conda init
-        conda activate environment.yml
         pytest --cov=diff_predictor --cov-report=xml
         
     - name: Upload coverage reports to Codecov
