@@ -3,8 +3,7 @@ import numpy as np
 import pandas as pd
 from skimage.measure import label, regionprops_table
 
-def process_npy_file(file, properties_list):
-   
+def apply_regionprops(file, properties_list):
 
     # Load the binary mask
     binary_mask = np.load(file)
@@ -22,7 +21,7 @@ def process_npy_file(file, properties_list):
     return props_df
 
 
-def process_folders_recursively(input_folder, properties_list=('area', 'bbox_area', 'centroid', 'convex_area', 
+def apply_regionprops_recursively(input_folder, properties_list=('area', 'bbox_area', 'centroid', 'convex_area', 
                    'eccentricity', 'equivalent_diameter', 'euler_number', 
                    'extent', 'filled_area', 'major_axis_length', 
                    'minor_axis_length', 'orientation', 'perimeter', 'solidity')):
@@ -48,7 +47,7 @@ def process_folders_recursively(input_folder, properties_list=('area', 'bbox_are
                 file_path = os.path.join(root, file)
 
                 try:
-                    all_dataframes.append(process_npy_file(file_path, properties_list))
+                    all_dataframes.append(apply_regionprops(file_path, properties_list))
 
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
