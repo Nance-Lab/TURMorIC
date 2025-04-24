@@ -1,9 +1,9 @@
 # import module or package here
-import unittest
+import pytest
 import random
 import os
 
-class TestAnalysis(unittest.TestCase):
+class TestAnalysis(pytest.TestCase):
 
     def test_pca_bdreg(self):
         test = 0
@@ -13,7 +13,3 @@ class TestAnalysis(unittest.TestCase):
 
     def test_clusterSM(self):
         test = 0
-
-
-if __name__ == '__main__':
-    unittest.main()

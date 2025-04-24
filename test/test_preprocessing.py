@@ -1,10 +1,10 @@
 # import module or package here
-import unittest
+import pytest
 import random
 import numpy as np
 import os
 
-class TestPreprocessing(unittest.TestCase):
+class TestPreprocessing(pytest.TestCase):
 
     def test_validate_iamge_format(self):
         test = 0  # remove this and write testing code
@@ -47,7 +47,3 @@ class TestPreprocessing(unittest.TestCase):
                     files_to_split_list.append(name)
 
         self.assertListEqual(files_to_split_list, expected_file_list)
-
-
-if __name__ == '__main__':
-    unittest.main()
