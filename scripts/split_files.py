@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from skimage import io
 import matplotlib.pyplot as plt
-from PIL import Image
 from numpy.linalg import inv
 from sklearn.model_selection import train_test_split
 from skimage.segmentation import clear_border

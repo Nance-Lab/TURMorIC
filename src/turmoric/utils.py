@@ -44,3 +44,6 @@ def organize_files_without_leakage(base_dir, train_dir, test_dir, groups, treatm
             for slice_id in test_slices:
                 for file in slice_files[slice_id]:
                     shutil.copy(os.path.join(condition_path, file), os.path.join(test_subdir, file))
+
+
+
