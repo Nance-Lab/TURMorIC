@@ -3,7 +3,7 @@ import numpy as np
 from skimage import io, filters, morphology
 from scipy import ndimage
 
-def apply_li_threshold(input_folder, output_folder, min_object_size=71):
+def apply_li_threshold(input_folder, output_folder, size):
     """
     Applies Li thresholding to all .tif images in the input folder (and subfolders)
     and saves the binary masks in the output folder.
@@ -47,7 +47,7 @@ def apply_li_threshold(input_folder, output_folder, min_object_size=71):
                     binary_li = microglia_im > thresh_li
 
                     # Remove small objects and fill holes
-                    binary_li = morphology.remove_small_objects(binary_li, min_size=min_object_size)
+                    binary_li = morphology.remove_small_objects(binary_li, min_size=size)
                     binary_li = ndimage.binary_fill_holes(binary_li)
 
                     # Save the binary mask as .npy

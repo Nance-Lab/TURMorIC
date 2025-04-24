@@ -2,8 +2,14 @@ import os
 import numpy as np
 from skimage import io, filters, morphology
 from scipy import ndimage
+import click
+from pathlib import Path
 
-def apply_li_threshold(input_folder, output_folder, min_object_size=71):
+@click.command()
+@click.argument('input_folder', type=click.Path(exists=True, readable=True, path_type=Path))
+@click.argument('output_folder', type=click.Path(exists=False, path_type=Path))
+@click.option("-s", "--size", type=click.INT, default=71)
+def apply_li_threshold(input_folder, output_folder, size=71):
     """
     Applies Li thresholding to all .tif images in the input folder (and subfolders)
     and saves the binary masks in the output folder.
@@ -11,7 +17,7 @@ def apply_li_threshold(input_folder, output_folder, min_object_size=71):
     Parameters:
     - input_folder: Path to the folder containing .tif images.
     - output_folder: Path to save the processed binary masks.
-    - min_object_size: Minimum size of objects to retain in the binary mask.
+    - size: Minimum size of objects to retain in the binary mask.
     """
     if not os.path.isdir(input_folder):
         print(f"Error: Input folder '{input_folder}' does not exist.")
@@ -47,7 +53,7 @@ def apply_li_threshold(input_folder, output_folder, min_object_size=71):
                     binary_li = microglia_im > thresh_li
 
                     # Remove small objects and fill holes
-                    binary_li = morphology.remove_small_objects(binary_li, min_size=min_object_size)
+                    binary_li = morphology.remove_small_objects(binary_li, min_size=size)
                     binary_li = ndimage.binary_fill_holes(binary_li)
 
                     # Save the binary mask as .npy
@@ -61,12 +67,4 @@ def apply_li_threshold(input_folder, output_folder, min_object_size=71):
 
 # Example usage
 if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) != 3:
-        print("Usage: python li_threshold.py <input_folder> <output_folder>")
-        sys.exit(1)
-
-    input_folder = sys.argv[1]
-    output_folder = sys.argv[2]
-    apply_li_threshold(input_folder, output_folder)
+    apply_li_threshold()
