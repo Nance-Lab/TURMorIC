@@ -3,6 +3,24 @@ import shutil
 import random
 from collections import defaultdict
 
+"""
+Takes in a directory of images to separate them into training and testing data.
+
+The image directory is passed into the function along with groups like
+brain region or sex as well as treatment conditions of the slices. The
+function then splits the images into a 80:20 training and testing data
+without data leakage. The data is grouped by slice and treatment
+conditions in new training and testing directories.
+
+Parameters:
+    base_dir: The directory of all images to be used for training and testing.
+    groups: The variable groups of the images like brain region or subject sex.
+    treatment_conditions: The treatment applied to the slices.
+
+Returns:
+    train_dir: The directory of training files from an 80:20 split from the base directory.
+    test_dir: The directory of testing files from an 80:20 split from the base directory.
+"""
 # Function to organize files into training and testing folders without slice leakage
 def organize_files_without_leakage(base_dir, train_dir, test_dir, groups, treatment_conditions, test_size=0.2):
     for group in groups:
