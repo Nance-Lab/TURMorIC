@@ -3,7 +3,7 @@ import pytest
 import random
 import os
 
-class TestAdaptiveThresholding(pytest.TestCase):
+class TestAdaptiveThresholding():
 
     def test_thresholding_creates_folder(self):
         test = 0

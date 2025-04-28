@@ -3,7 +3,7 @@ import pytest
 import random
 import os
 
-class TestSegmentation(pytest.TestCase):
+class TestSegmentation():
 
     def test_bdreg(self):
         test = 0  # remove this line and replace with testing code

@@ -4,7 +4,7 @@ import random
 import numpy as np
 import os
 
-class TestPreprocessing(pytest.TestCase):
+class TestPreprocessing():
 
     def test_validate_iamge_format(self):
         test = 0  # remove this and write testing code
@@ -27,7 +27,7 @@ class TestPreprocessing(pytest.TestCase):
 
     def test_image_list_split(self):
         ##Just copying the main code from the .ipynb, not a test yet hehes
-        folder_location = 'test_data'
+        folder_location = 'example_dataset'
         arr = os.listdir(folder_location)
         folder_list = np.asarray(arr)
         folder_list = [ x for x in folder_list if "DS" not in x ]

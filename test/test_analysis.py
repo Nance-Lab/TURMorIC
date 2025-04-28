@@ -3,7 +3,7 @@ import pytest
 import random
 import os
 
-class TestAnalysis(pytest.TestCase):
+class TestAnalysis():
 
     def test_pca_bdreg(self):
         test = 0
