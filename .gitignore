@@ -6,3 +6,4 @@
 .hypothesis/
 __pycache__/
 .vscode
+coverage.xml
