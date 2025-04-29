@@ -3,6 +3,7 @@ import pytest
 import random
 import numpy as np
 import os
+import turmoric
 
 class TestPreprocessing():
 

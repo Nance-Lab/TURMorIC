@@ -2,6 +2,7 @@
 import pytest
 import random
 import os
+import turmoric
 
 class TestAnalysis():
 
