@@ -38,10 +38,11 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest --cov=TURMorIC --cov-report=xml
+        python -m pytest --cov=TURMorIC --cov-report xml:./coverage.xml
         
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
         slug: Nance-Lab/TURMorIC
