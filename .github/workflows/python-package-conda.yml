@@ -29,6 +29,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install flake8 pytest coverage pytest-cov
+        pip install .
     - name: Lint with flake8
       run: |
         conda install flake8
