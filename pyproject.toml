@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools >= 64.0", "wheel", "setuptools_scm>=8.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "turmoric"
+authors = [
+	{ name="Nels Schimek", email="nlsschim@uw.edu"},
+	{ name="Krista Phommatha", email="krisphom@uw.edu" },
+	{ name="Colin Landis", email="colinl1@uw.edu"},
+	{ name="Muna Yase", email="myase@uw.edu"},
+	{ name="Heather Wood", email="hwood2@uw.edu"},
+	{ name="Sergi Mayta", email="smayta@uw.edu"},
+]
+
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+  
+    "numpy>=1.23",
+    "scipy>=1.8",
+    "setuptools>=64",
+    "setuptools_scm>=8.1",
+]
+requires-python = ">=3.9"
+

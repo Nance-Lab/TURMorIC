@@ -1,0 +1,9 @@
+*cache*
+*DS_Store*
+*egg-info/
+*.egg
+*.coverage
+.hypothesis/
+__pycache__/
+.vscode
+coverage.xml
