@@ -5,13 +5,16 @@ from scipy import ndimage
 import click
 from pathlib import Path
 
+
 @click.command()
-@click.argument('input_folder', type=click.Path(exists=True, readable=True, path_type=Path))
+@click.argument('input_folder', type=click.Path(exists=True, readable=True,
+                                                path_type=Path))
 @click.argument('output_folder', type=click.Path(exists=False, path_type=Path))
 @click.option("-s", "--size", type=click.INT, default=71)
 def apply_li_threshold(input_folder, output_folder, size=71):
     """
-    Applies Li thresholding to all .tif images in the input folder (and subfolders)
+    Applies Li thresholding to all .tif images in the input folder
+    (and subfolders)
     and saves the binary masks in the output folder.
 
     Parameters:
@@ -39,7 +42,9 @@ def apply_li_threshold(input_folder, output_folder, size=71):
                 os.makedirs(output_subfolder, exist_ok=True)
 
                 # Full output path
-                output_path = os.path.join(output_subfolder, file.replace(".tif", "_li_thresh.npy"))
+                output_path = os.path.join(output_subfolder,
+                                           file.replace(".tif",
+                                                        "_li_thresh.npy"))
 
                 try:
                     # Read the image
@@ -53,7 +58,9 @@ def apply_li_threshold(input_folder, output_folder, size=71):
                     binary_li = microglia_im > thresh_li
 
                     # Remove small objects and fill holes
-                    binary_li = morphology.remove_small_objects(binary_li, min_size=size)
+                    binary_li = morphology.remove_small_objects(
+                        binary_li, min_size=size
+                        )
                     binary_li = ndimage.binary_fill_holes(binary_li)
 
                     # Save the binary mask as .npy
@@ -65,6 +72,6 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 
     print(f"Processing completed. Results are saved in '{output_folder}'.")
 
-# Example usage
+
 if __name__ == "__main__":
     apply_li_threshold()
