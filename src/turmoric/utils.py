@@ -2,6 +2,9 @@ import os
 import shutil
 import random
 from collections import defaultdict
+import json
+import pandas as pd
+import numpy as np
 # from skimage.filters import try_all_threshold
 # from skimage.filters import threshold_isodata
 # from skimage.filters import threshold_li
@@ -67,16 +70,16 @@ def organize_files_without_leakage(base_dir, train_dir, test_dir, groups,
             test_slices = slice_ids[split_index:]
 
             # Create subdirectories for training and testing
-            train_subdir = os.path.join(train_dir, group, condition)
+            # train_subdir = os.path.join(train_dir, group, condition)
             test_subdir = os.path.join(test_dir, group, condition)
-            os.makedirs(train_subdir, exist_ok=True)
+            # os.makedirs(train_subdir, exist_ok=True)
             os.makedirs(test_subdir, exist_ok=True)
 
             # Move files to the appropriate folders
             for slice_id in train_slices:
                 for file in slice_files[slice_id]:
                     shutil.copy(os.path.join(condition_path, file),
-                                os.path.join(train_subdir, file))
+                                os.path.join(train_dir, file))
 
             for slice_id in test_slices:
                 for file in slice_files[slice_id]:
@@ -105,3 +108,53 @@ def recursively_get_all_filepaths(input_folder, file_type):
                 file_list.append(input_path)
 
     return file_list
+
+
+def create_metadata_df_from_json(json_path, mode='training'):
+    """
+    Create a DataFrame from a JSON config file with region, treatments,
+    model path, and base directory.
+
+    Parameters:
+    - json_path (str): Path to the JSON configuration file.
+
+    Returns:
+    - pd.DataFrame: DataFrame with img_set_path, model_path,
+                    output_path, and img_set_name.
+    """
+    with open(json_path, 'r') as f:
+        config = json.load(f)
+
+    region = config['groups'][0]
+    treatments = config['treatments']
+
+    if mode == 'training':
+        base_path = config['train_dir']
+        df = pd.DataFrame({
+            'img_set_path':
+                [f"{base_path}"],
+            'output_path': [f"{config['base_dir']}"],
+            'model_name': [f"{config['threshold_method']}"],
+            'num_points': [f"{config['num_points']}"],
+            'num_clusters': [f"{config['num_clusters']}"],
+            'num_pcs': [np.nan]
+                })
+    elif mode == 'testing':
+        base_path = config['test_dir']
+        model_path = config['model_path']
+        df = pd.DataFrame({
+            'img_set_path': [
+                f"{base_path}/{region}/{t}/" for t in treatments
+            ],
+            'model_path': [model_path] * len(treatments),
+            'output_path': [
+                f"{base_path}/{region}/{t}/" for t in treatments
+            ],
+            'img_set_name': [
+                f"li_{region}_t{t}" for t in treatments
+            ]
+        })
+    else:
+        print(f'mode must be training or testing, not {mode}')
+
+    return df
