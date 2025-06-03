@@ -4,6 +4,7 @@ import pandas as pd
 from skimage.measure import label, regionprops_table
 from turmoric.utils import recursively_get_all_filepaths
 
+
 def apply_regionprops(file: str, properties_list: list) -> pd.DataFrame:
     """
     Compute region properties from a binary mask stored in a .npy file.
@@ -64,7 +65,7 @@ def apply_regionprops_recursively(input_folder: str, properties_list: tuple=(
                                 'euler_number', 'extent', 'filled_area',
                                 'major_axis_length', 'minor_axis_length',
                                 'orientation', 'perimeter', 'solidity')) -> pd.DataFrame:
-   """
+    """
     Recursively applies region properties extraction to all `.npy` files in a directory.
 
     This function traverses the given input folder and its subfolders to find all `.npy` files.
@@ -111,7 +112,8 @@ def apply_regionprops_recursively(input_folder: str, properties_list: tuple=(
     >>> df = apply_regionprops_recursively('/data/images', properties_list=('area', 'centroid'))
     >>> df[['area', 'centroid-0', 'centroid-1']].plot.scatter(x='centroid-0', y='centroid-1', c='area', colormap='viridis')
     >>> plt.show()
-    """    
+    """
+   
     if not os.path.isdir(input_folder):
         print(f"Error: Input folder '{input_folder}' does not exist.")
         return

@@ -1,30 +1,31 @@
 import pytest
 import random
 import os
+import shutil
 from skimage import io
 from skimage.util import img_as_ubyte
 from skimage.io import imsave
 import tempfile
 from typing import Callable
 import numpy as np
-import turmoric
+from turmoric.apply_thresholds import recursively_get_all_filepaths
 from turmoric.apply_thresholds import apply_all_thresh
 from turmoric.apply_thresholds import apply_li_threshold
 from turmoric.apply_thresholds import apply_threshold_recursively
 
+
 def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
-# Create temporary input and output directories
+    # Create temporary input and output directories
     with tempfile.TemporaryDirectory() as input_dir, tempfile.TemporaryDirectory() as output_dir:
-    # Create a dummy RGB image
+        # Create a dummy RGB image
         image = np.random.randint(0, 255, (100, 100, 3), dtype=np.uint8)
     image_path = os.path.join(input_dir, "test_image.tif")
     imsave(image_path, image)
 
     # Mock the file discovery function
-    from your_module import recursively_get_all_filepaths
     def mock_get_all_filepaths(folder, ext):
             return [image_path]
-    your_module.recursively_get_all_filepaths = mock_get_all_filepaths
+    recursively_get_all_filepaths = mock_get_all_filepaths
 
         # Run the function
     apply_all_thresh(input_dir, output_dir, channel=1)
@@ -72,11 +73,13 @@ def test_apply_li_threshold(file, channel, binary_li):
     if not isinstance(binary_li, np.ndarray):
         raise TypeError("binary_li must be a numpy array")
     if binary_li.ndim != 2:
-            assert isinstance(binary_li, np.ndarray) and binary_li.dtype == bool and binary_li.ndim == 2
+        assert isinstance(binary_li, np.ndarray) and binary_li.dtype == bool and binary_li.ndim == 2
+
 
 # Dummy threshold function
 def dummy_threshold(file_path):
     return np.ones((10, 10), dtype=bool)
+
 
 @pytest.fixture
 def temp_dirs():
@@ -97,7 +100,7 @@ def temp_dirs():
     shutil.rmtree(input_dir)
     shutil.rmtree(output_dir)
 
-    
+
 def test_apply_threshold(temp_dirs):
     input_dir, output_dir, test_files = temp_dirs
 

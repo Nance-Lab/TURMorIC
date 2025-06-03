@@ -1,6 +1,7 @@
 import pytest
 import random
 import os
+import pandas as pd
 from skimage import io
 from skimage.util import img_as_ubyte
 import tempfile
@@ -32,7 +33,8 @@ def test_apply_regionprops(input_folder, properties_list):
         raise TypeError("input_folder must be a string")
     if not isinstance(properties_list, list):
         raise TypeError("properties_list must be a list of strings")
-    
+
+
 def test_apply_regionprops_recursively(input_folder, properties_list):
     # Create a temporary directory with multiple binary masks
     with tempfile.TemporaryDirectory() as temp_dir:

@@ -113,8 +113,8 @@ def normalize_npy_data(npy_image_data: np.ndarray) -> np.ndarray:
            [  0, 255]], dtype=uint8)
     """
     if npy_image_data.dtype == np.bool_:
-            # Convert boolean to uint8 (True -> 255, False -> 0)
-            normalized_image_data = (npy_image_data * 255).astype(np.uint8)
+        # Convert boolean to uint8 (True -> 255, False -> 0)
+        normalized_image_data = (npy_image_data * 255).astype(np.uint8)
     else:
         # Normalize and scale image data to uint8 if it's not already
         if npy_image_data.dtype != np.uint8:
