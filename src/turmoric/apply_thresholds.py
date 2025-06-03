@@ -152,7 +152,7 @@ def apply_li_threshold(file: str, channel: int=1) -> np.ndarray[bool]:
 
 def apply_threshold_recursively(input_folder: str,
                                 output_folder: str='./thresh_output/',
-                                threshold_funcion: Callable[[str], np.ndarray]=apply_li_threshold) -> None:
+                                threshold_function: Callable[[str], np.ndarray]=apply_li_threshold) -> None:
      
     """
     Recursively applies a thresholding function to all `.tif` images in a directory
@@ -210,7 +210,7 @@ def apply_threshold_recursively(input_folder: str,
 
     for file in file_list:
         try:
-            binary_image = threshold_funcion(file)
+            binary_image = threshold_function(file)
             output_path = os.path.join(output_folder,
                                        file.replace('.tif', '.npy'))
             np.save(output_path, binary_image)
