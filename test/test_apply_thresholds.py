@@ -21,10 +21,10 @@ def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
     imsave(image_path, image)
 
     # Mock the file discovery function
-    from your_module import recursively_get_all_filepaths
+    from turmoric import recursively_get_all_filepaths
     def mock_get_all_filepaths(folder, ext):
             return [image_path]
-    your_module.recursively_get_all_filepaths = mock_get_all_filepaths
+    turmoric.recursively_get_all_filepaths = mock_get_all_filepaths
 
         # Run the function
     apply_all_thresh(input_dir, output_dir, channel=1)
