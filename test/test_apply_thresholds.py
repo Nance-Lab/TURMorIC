@@ -3,6 +3,7 @@ import random
 import os
 from skimage import io
 from skimage.util import img_as_ubyte
+from skimage.io import imsave
 import tempfile
 from typing import Callable
 import numpy as np
