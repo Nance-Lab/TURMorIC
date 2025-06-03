@@ -1,5 +1,5 @@
-import pytest
 import random
+import pytest
 import os
 import shutil
 from skimage import io
