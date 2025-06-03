@@ -5,10 +5,11 @@ import shutil
 from skimage import io
 from skimage.util import img_as_ubyte
 from skimage.io import imsave
+import shutil
 import tempfile
 from typing import Callable
 import numpy as np
-from turmoric.apply_thresholds import recursively_get_all_filepaths
+import turmoric
 from turmoric.apply_thresholds import apply_all_thresh
 from turmoric.apply_thresholds import apply_li_threshold
 from turmoric.apply_thresholds import apply_threshold_recursively
@@ -23,9 +24,10 @@ def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
     imsave(image_path, image)
 
     # Mock the file discovery function
+    from turmoric import recursively_get_all_filepaths
     def mock_get_all_filepaths(folder, ext):
             return [image_path]
-    recursively_get_all_filepaths = mock_get_all_filepaths
+    turmoric.recursively_get_all_filepaths = mock_get_all_filepaths
 
         # Run the function
     apply_all_thresh(input_dir, output_dir, channel=1)
