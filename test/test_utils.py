@@ -10,6 +10,7 @@ import turmoric
 from turmoric.utils import organize_files_without_leakage
 from turmoric.utils import recursively_get_all_filepaths
 
+
 def test_organize_files_without_leakage(input_folder, output_folder):
     # Create a temporary directory with dummy files
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -32,7 +33,8 @@ def test_organize_files_without_leakage(input_folder, output_folder):
         raise TypeError("input_folder must be a string")
     if not isinstance(output_folder, str):
         raise TypeError("output_folder must be a string")
-    
+
+
 def test_recursively_get_all_filepaths(input_folder, ext):
     # Create a temporary directory with dummy files
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -54,7 +56,8 @@ def test_recursively_get_all_filepaths(input_folder, ext):
         raise TypeError("input_folder must be a string")
     if not isinstance(ext, str):
         raise TypeError("ext must be a string")
-    
+
+
 def test_recursively_get_all_filepaths_invalid_input():
     with pytest.raises(TypeError):
         recursively_get_all_filepaths(123, "txt")  # input_folder should be a string

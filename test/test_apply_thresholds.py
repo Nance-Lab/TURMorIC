@@ -15,6 +15,52 @@ from turmoric.apply_thresholds import apply_li_threshold
 from turmoric.apply_thresholds import apply_threshold_recursively
 
 
+@pytest.fixture
+def temp_dirs():
+    input_dir = tempfile.mkdtemp()
+    output_dir = tempfile.mkdtemp()
+
+    # Create dummy .tif files
+    test_files = ['image1.tif', 'subdir/image2.tif']
+    for file in test_files:
+        full_path = os.path.join(input_dir, file)
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        with open(full_path, 'wb') as f:
+            f.write(b'dummy data')
+
+    yield input_dir, output_dir, test_files
+
+    # Cleanup
+    shutil.rmtree(input_dir)
+    shutil.rmtree(output_dir)
+
+
+@pytest.fixture
+def input_folder():
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    # Optionally, create test files here
+    yield temp_dir
+    # Cleanup after test
+    shutil.rmtree(temp_dir)
+
+
+@pytest.fixture
+def output_folder():
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    # Optionally, create test files here
+    yield temp_dir
+    # Cleanup after test
+    shutil.rmtree(temp_dir)
+
+
+@pytest.fixture
+def channel():
+
+    
+
+
 def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
     # Create temporary input and output directories
     with tempfile.TemporaryDirectory() as input_dir, tempfile.TemporaryDirectory() as output_dir:
@@ -24,9 +70,8 @@ def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
     imsave(image_path, image)
 
     # Mock the file discovery function
-    from turmoric import recursively_get_all_filepaths
     def mock_get_all_filepaths(folder, ext):
-            return [image_path]
+        return [image_path]
     turmoric.recursively_get_all_filepaths = mock_get_all_filepaths
 
         # Run the function
@@ -44,6 +89,7 @@ def test_apply_all_thresh(input_folder, output_folder, channel, figsize):
         raise ValueError("channel must be a non-negative integer")
     if not (isinstance(figsize, tuple) and len(figsize) == 2 and all(isinstance(x, (int, float)) for x in figsize)):
         raise TypeError("figsize must be a tuple of two numbers")
+
 
 def test_apply_li_threshold(file, channel, binary_li):
     # Create a synthetic image with two intensity regions
@@ -81,26 +127,6 @@ def test_apply_li_threshold(file, channel, binary_li):
 # Dummy threshold function
 def dummy_threshold(file_path):
     return np.ones((10, 10), dtype=bool)
-
-
-@pytest.fixture
-def temp_dirs():
-    input_dir = tempfile.mkdtemp()
-    output_dir = tempfile.mkdtemp()
-
-    # Create dummy .tif files
-    test_files = ['image1.tif', 'subdir/image2.tif']
-    for file in test_files:
-        full_path = os.path.join(input_dir, file)
-        os.makedirs(os.path.dirname(full_path), exist_ok=True)
-        with open(full_path, 'wb') as f:
-            f.write(b'dummy data')
-
-    yield input_dir, output_dir, test_files
-
-    # Cleanup
-    shutil.rmtree(input_dir)
-    shutil.rmtree(output_dir)
 
 
 def test_apply_threshold(temp_dirs):

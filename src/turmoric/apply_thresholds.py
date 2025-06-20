@@ -5,6 +5,15 @@ from scipy import ndimage
 from turmoric.utils import recursively_get_all_filepaths
 import matplotlib.pyplot as plt
 from typing import Callable
+from skimage.filters import threshold_isodata
+from skimage.filters import threshold_li
+from skimage.filters import threshold_mean
+from skimage.filters import threshold_minimum
+from skimage.filters import threshold_otsu
+from skimage.filters import threshold_triangle
+from skimage.filters import threshold_yen
+from collections import OrderedDict
+from collections.abc import Iterable
 
 
 def apply_all_thresh(input_folder: str, output_folder: str, channel: int=1, figsize: tuple=(10, 8)) -> None:
@@ -49,15 +58,68 @@ def apply_all_thresh(input_folder: str, output_folder: str, channel: int=1, figs
     This will process all `.tif` images in 'data/microscopy_images', apply thresholding to channel 0,
     and save the comparison plots in 'results/thresholding_plots'.
     """
+
+    def thresh(func):
+        """
+        A wrapper function to return a thresholded image.
+        """
+
+        def wrapper(im):
+            return im > func(im)
+
+        try:
+            wrapper.__orifunc__ = func.__orifunc__
+        except AttributeError:
+            wrapper.__orifunc__ = func.__module__ + '.' + func.__name__
+        return wrapper
+
+    # Global algorithms.
+    methods = OrderedDict(
+        {
+            'Isodata': thresh(threshold_isodata),
+            'Li': thresh(threshold_li),
+            'Mean': thresh(threshold_mean),
+            'Minimum': thresh(threshold_minimum),
+            'Otsu': thresh(threshold_otsu),
+            'Triangle': thresh(threshold_triangle),
+            'Yen': thresh(threshold_yen),
+        }
+    )
     os.makedirs(output_folder, exist_ok=True)
 
     file_list = recursively_get_all_filepaths(input_folder, ".tif")
     for file in file_list:
         im = io.imread(file)
         microglia_im = im[:, :, channel] if im.ndim == 3 else im
-        fig, ax = filters.try_all_threshold(microglia_im,
-                                            figsize=figsize,
-                                            verbose=False)
+        # fig, ax = filters.try_all_threshold(microglia_im,
+        #                                     figsize=figsize,
+        #                                     verbose=False)
+
+        fig, ax = plt.subplots(nrows=4, ncols=2, figsize=figsize, sharex=True, sharey=True)
+        ax = ax.flatten()
+        ax[0].imshow(microglia_im)
+        ax[0].set_title('Original Image')
+        ax[0].axis('off')
+
+        i = 1
+        for name, func in methods.items():
+            ax[i].set_title(f'{name}')
+            try:
+                ax[i].imshow(func(microglia_im))
+                ax[i].axis('off')
+            except Exception as e:
+                ax[i].text(
+                    0.5,
+                    0.5,
+                    f"{type(e).__name__}",
+                    ha="center",
+                    va="center",
+                    transform=ax[i].transAxes,
+                )
+            i += 1
+
+        ax[-1].axis('off')  # Hide the last unused subplot
+        fig.suptitle(f'Thresholding Comparison for {os.path.basename(file)}', fontsize=16)
         output_path = os.path.join(output_folder,
                                    os.path.basename(file).replace(
                                        '.tif', '_all_thresh.tif'))
