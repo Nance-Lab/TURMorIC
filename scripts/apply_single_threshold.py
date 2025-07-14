@@ -4,6 +4,9 @@ from skimage import io, filters, morphology
 from scipy import ndimage
 import click
 from pathlib import Path
+from skimage.measure import block_reduce, label, regionprops
+from skimage.morphology import remove_small_objects
+from skimage.segmentation import clear_border
 
 @click.command()
 @click.argument('input_folder', type=click.Path(exists=True, readable=True, path_type=Path))
@@ -43,22 +46,33 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 
                 try:
                     # Read the image
-                    im = io.imread(input_path)
+                    img = io.imread(input_path)
 
                     # Assume the second channel is the microglia channel
-                    microglia_im = im[:, :, 1] if im.ndim == 3 else im
+                    microglia_im = img[:, :, 1] if img.ndim == 3 else img
 
                     # Apply Li threshold
                     thresh_li = filters.threshold_li(microglia_im)
                     binary_li = microglia_im > thresh_li
 
-                    # Remove small objects and fill holes
-                    binary_li = morphology.remove_small_objects(binary_li, min_size=size)
-                    binary_li = ndimage.binary_fill_holes(binary_li)
+                    objects = label(binary_li)
+                    objects = clear_border(objects)
+                    large_objects = remove_small_objects(objects, min_size=8590)
+                    small_objects = label((objects ^ large_objects) > thresh_li)
 
-                    # Save the binary mask as .npy
-                    np.save(output_path, binary_li)
-                    print(f"Processed: {input_path} -> {output_path}")
+                    binary_li = ndimage.binary_fill_holes(remove_small_objects(small_objects > thresh_li, min_size=71))
+
+                    scaled_img = ((img - img.min()) * (1/(img.max() - img.min()) * 255)).astype('uint8')
+                    hist = np.histogram(scaled_img.flatten(), range=[0,50], bins=50)
+
+                    if hist[0][0] > (hist[0][1] + hist[0][2]):
+
+                        # Save the binary mask as .npy
+                        np.save(output_path, binary_li)
+                        #print(f"Processed: {input_path} -> {output_path}")
+
+                    else:
+                        print("Too much background, not using image")
 
                 except Exception as e:
                     print(f"Error processing {input_path}: {e}")
@@ -68,3 +82,4 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 # Example usage
 if __name__ == "__main__":
     apply_li_threshold()
+    

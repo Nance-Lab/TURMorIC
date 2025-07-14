@@ -67,7 +67,7 @@ for dirpath, dirnames, filenames in os.walk(root_directory):
                     # Normalize and scale image data to uint8 if it's not already
                     if image_data.dtype != np.uint8:
                         image_data = (
-                            255 * (image_data - image_data.min()) / (image_data.ptp() + 1e-8)
+                            255 * (image_data - image_data.min()) / (np.ptp(image_data) + 1e-8)
                         ).astype(np.uint8)
                         
                 # Construct the output TIFF file path
