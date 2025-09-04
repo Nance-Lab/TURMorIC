@@ -3,7 +3,8 @@
 
 """
 
-Note: this script was partially written by Claude AI
+Note: this script was initially written by Claude AI 
+and edited by Nels Schimek
 
 VAMPIRE Model Training and Application Script
 
@@ -211,11 +212,10 @@ def load_config(config_path: Optional[str] = None) -> Dict:
     """
     # Default configuration
     config = {
-        'base_path': "/Users/nelsschimek/Documents/nancelab/Data/mito_images/brendan_full_analysis/tifs",
-        'treatments': ["24R_control", "24R_OGD", "2R_control", "2R_OGD",
-                      "30mR_control", "OGD_only", "ORST"],
-        'groups': ["vampire_data"],
-        'training_subpath': "training/vampire_data",
+        'base_path': "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs",
+        'treatments': ["Left_HC", "Right_HC"],
+        'groups': ["Blast_45_angle_5", "Blast_45_angle_6", "Blast_prone_7", "Blast_prone_8", "Blast_prone_9", "Sham_3"],
+        'training_subpath': "training/",
         'testing_subpath': "testing/",
         'model_params': {
             'model_name': 'li',

@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>turmoric package &mdash; TURMorIC 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="TURMorIC documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TURMorIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">turmoric package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.apply_thresholds">turmoric.apply_thresholds module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.apply_thresholds.apply_li_threshold"><code class="docutils literal notranslate"><span class="pre">apply_li_threshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.apply_thresholds.apply_li_threshold_recursively"><code class="docutils literal notranslate"><span class="pre">apply_li_threshold_recursively()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.apply_thresholds.threshold_helper_func"><code class="docutils literal notranslate"><span class="pre">threshold_helper_func()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.cell_analysis">turmoric.cell_analysis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.cell_analysis.apply_regionprops"><code class="docutils literal notranslate"><span class="pre">apply_regionprops()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.cell_analysis.apply_regionprops_recursively"><code class="docutils literal notranslate"><span class="pre">apply_regionprops_recursively()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.image_process">turmoric.image_process module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.image_process.load_npy_file"><code class="docutils literal notranslate"><span class="pre">load_npy_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.image_process.load_tif_file"><code class="docutils literal notranslate"><span class="pre">load_tif_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.image_process.nd2_to_tif"><code class="docutils literal notranslate"><span class="pre">nd2_to_tif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.image_process.normalize_npy_data"><code class="docutils literal notranslate"><span class="pre">normalize_npy_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.image_process.save_npy_as_tif"><code class="docutils literal notranslate"><span class="pre">save_npy_as_tif()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.main">turmoric.main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.utils">turmoric.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.utils.organize_files_without_leakage"><code class="docutils literal notranslate"><span class="pre">organize_files_without_leakage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric.vampire_model">turmoric.vampire_model module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer.apply_model"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.apply_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer.create_apply_dataframe"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.create_apply_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer.extract_features"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.extract_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer.run_full_pipeline"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.run_full_pipeline()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turmoric.vampire_model.VampireModelTrainer.train_model"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.train_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-turmoric">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TURMorIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">turmoric package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/turmoric.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="turmoric-package">
+<h1>turmoric package<a class="headerlink" href="#turmoric-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-turmoric.apply_thresholds">
+<span id="turmoric-apply-thresholds-module"></span><h2>turmoric.apply_thresholds module<a class="headerlink" href="#module-turmoric.apply_thresholds" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.apply_thresholds.apply_li_threshold">
+<span class="sig-prename descclassname"><span class="pre">turmoric.apply_thresholds.</span></span><span class="sig-name descname"><span class="pre">apply_li_threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/apply_thresholds.html#apply_li_threshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.apply_thresholds.apply_li_threshold" title="Link to this definition"></a></dt>
+<dd><p>Applies Li thresholding to all .tif images in the input folder (and subfolders)
+and saves the binary masks in the output folder.</p>
+<p>Parameters:
+- input_folder: Path to the folder containing .tif images.
+- output_folder: Path to save the processed binary masks.
+- min_object_size: Minimum size of objects to retain in the binary mask.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.apply_thresholds.apply_li_threshold_recursively">
+<span class="sig-prename descclassname"><span class="pre">turmoric.apply_thresholds.</span></span><span class="sig-name descname"><span class="pre">apply_li_threshold_recursively</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./li_output/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'li'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/apply_thresholds.html#apply_li_threshold_recursively"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.apply_thresholds.apply_li_threshold_recursively" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.apply_thresholds.threshold_helper_func">
+<span class="sig-prename descclassname"><span class="pre">turmoric.apply_thresholds.</span></span><span class="sig-name descname"><span class="pre">threshold_helper_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/apply_thresholds.html#threshold_helper_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.apply_thresholds.threshold_helper_func" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-turmoric.cell_analysis">
+<span id="turmoric-cell-analysis-module"></span><h2>turmoric.cell_analysis module<a class="headerlink" href="#module-turmoric.cell_analysis" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.cell_analysis.apply_regionprops">
+<span class="sig-prename descclassname"><span class="pre">turmoric.cell_analysis.</span></span><span class="sig-name descname"><span class="pre">apply_regionprops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/cell_analysis.html#apply_regionprops"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.cell_analysis.apply_regionprops" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.cell_analysis.apply_regionprops_recursively">
+<span class="sig-prename descclassname"><span class="pre">turmoric.cell_analysis.</span></span><span class="sig-name descname"><span class="pre">apply_regionprops_recursively</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('area',</span> <span class="pre">'bbox_area',</span> <span class="pre">'centroid',</span> <span class="pre">'convex_area',</span> <span class="pre">'eccentricity',</span> <span class="pre">'equivalent_diameter',</span> <span class="pre">'euler_number',</span> <span class="pre">'extent',</span> <span class="pre">'filled_area',</span> <span class="pre">'major_axis_length',</span> <span class="pre">'minor_axis_length',</span> <span class="pre">'orientation',</span> <span class="pre">'perimeter',</span> <span class="pre">'solidity')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/cell_analysis.html#apply_regionprops_recursively"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.cell_analysis.apply_regionprops_recursively" title="Link to this definition"></a></dt>
+<dd><p>Processes all <cite>.npy</cite> files in the input folder (and subfolders), applies labeling,
+calculates properties, and saves results in a CSV file.</p>
+<p>Parameters:
+- input_folder: Path to the folder containing <cite>.npy</cite> files.
+- properties_list: List of properties to calculate using regionprops_table.</p>
+</dd></dl>
+
+</section>
+<section id="module-turmoric.image_process">
+<span id="turmoric-image-process-module"></span><h2>turmoric.image_process module<a class="headerlink" href="#module-turmoric.image_process" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.image_process.load_npy_file">
+<span class="sig-prename descclassname"><span class="pre">turmoric.image_process.</span></span><span class="sig-name descname"><span class="pre">load_npy_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/image_process.html#load_npy_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.image_process.load_npy_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.image_process.load_tif_file">
+<span class="sig-prename descclassname"><span class="pre">turmoric.image_process.</span></span><span class="sig-name descname"><span class="pre">load_tif_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/image_process.html#load_tif_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.image_process.load_tif_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.image_process.nd2_to_tif">
+<span class="sig-prename descclassname"><span class="pre">turmoric.image_process.</span></span><span class="sig-name descname"><span class="pre">nd2_to_tif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/image_process.html#nd2_to_tif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.image_process.nd2_to_tif" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.image_process.normalize_npy_data">
+<span class="sig-prename descclassname"><span class="pre">turmoric.image_process.</span></span><span class="sig-name descname"><span class="pre">normalize_npy_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npy_image_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/image_process.html#normalize_npy_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.image_process.normalize_npy_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.image_process.save_npy_as_tif">
+<span class="sig-prename descclassname"><span class="pre">turmoric.image_process.</span></span><span class="sig-name descname"><span class="pre">save_npy_as_tif</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/image_process.html#save_npy_as_tif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.image_process.save_npy_as_tif" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-turmoric.main">
+<span id="turmoric-main-module"></span><h2>turmoric.main module<a class="headerlink" href="#module-turmoric.main" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.main.main">
+<span class="sig-prename descclassname"><span class="pre">turmoric.main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/main.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.main.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-turmoric.utils">
+<span id="turmoric-utils-module"></span><h2>turmoric.utils module<a class="headerlink" href="#module-turmoric.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="turmoric.utils.organize_files_without_leakage">
+<span class="sig-prename descclassname"><span class="pre">turmoric.utils.</span></span><span class="sig-name descname"><span class="pre">organize_files_without_leakage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_conditions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/utils.html#organize_files_without_leakage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.utils.organize_files_without_leakage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-turmoric.vampire_model">
+<span id="turmoric-vampire-model-module"></span><h2>turmoric.vampire_model module<a class="headerlink" href="#module-turmoric.vampire_model" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">turmoric.vampire_model.</span></span><span class="sig-name descname"><span class="pre">VampireModelTrainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to handle VAMPIRE model training and application for brain image analysis.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer.apply_model">
+<span class="sig-name descname"><span class="pre">apply_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer.apply_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer.apply_model" title="Link to this definition"></a></dt>
+<dd><p>Apply the trained model to test datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>test_base_path</strong> – Base path for test datasets</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer.create_apply_dataframe">
+<span class="sig-name descname"><span class="pre">create_apply_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer.create_apply_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer.create_apply_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Create a DataFrame for applying the trained model to test datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_base_path</strong> – Base path for test datasets</p></li>
+<li><p><strong>model_path</strong> – Path to the trained model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with application configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer.extract_features">
+<span class="sig-name descname"><span class="pre">extract_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_set_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer.extract_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer.extract_features" title="Link to this definition"></a></dt>
+<dd><p>Extract features from images using VAMPIRE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>image_set_path</strong> – Path to the image dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer.run_full_pipeline">
+<span class="sig-name descname"><span class="pre">run_full_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_subpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'training/vampire_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing_subpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'testing/vampire_data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer.run_full_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer.run_full_pipeline" title="Link to this definition"></a></dt>
+<dd><p>Run the complete training and application pipeline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training_subpath</strong> – Relative path to training data</p></li>
+<li><p><strong>testing_subpath</strong> – Relative path to testing data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="turmoric.vampire_model.VampireModelTrainer.train_model">
+<span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_set_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'li'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/turmoric/vampire_model.html#VampireModelTrainer.train_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#turmoric.vampire_model.VampireModelTrainer.train_model" title="Link to this definition"></a></dt>
+<dd><p>Train a VAMPIRE model on the extracted features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_set_path</strong> – Path to the training image dataset</p></li>
+<li><p><strong>model_name</strong> – Name identifier for the model</p></li>
+<li><p><strong>num_points</strong> – Number of points for model training</p></li>
+<li><p><strong>num_clusters</strong> – Number of clusters for model training</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the trained model file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-turmoric">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-turmoric" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="TURMorIC documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

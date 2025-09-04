@@ -7,6 +7,24 @@ from pathlib import Path
 from skimage.measure import block_reduce, label, regionprops
 from skimage.morphology import remove_small_objects
 from skimage.segmentation import clear_border
+import tifffile as tiff
+
+def create_microglia_mask(image, threshold_method=filters.threshold_li):
+
+    thresh_li = threshold_method(image)
+    binary_li = image > thresh_li
+
+    objects = label(binary_li)
+    objects = clear_border(objects)
+    large_objects = remove_small_objects(objects, min_size=50000)
+    small_objects = label((objects ^ large_objects) > thresh_li)
+
+    binary_li = ndimage.binary_fill_holes(remove_small_objects(small_objects > thresh_li, min_size=500))
+
+    #scaled_img = ((image - image.min()) * (1/(image.max() - image.min()) * 255)).astype('uint8')
+    #hist = np.histogram(scaled_img.flatten(), range=[0,50], bins=50)
+    return binary_li
+
 
 @click.command()
 @click.argument('input_folder', type=click.Path(exists=True, readable=True, path_type=Path))
@@ -46,33 +64,20 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 
                 try:
                     # Read the image
-                    img = io.imread(input_path)
+                    #img = io.imread(input_path)
 
                     # Assume the second channel is the microglia channel
-                    microglia_im = img[:, :, 1] if img.ndim == 3 else img
+                    #microglia_im = img[:, :, 1] if img.ndim == 3 else img
 
                     # Apply Li threshold
-                    thresh_li = filters.threshold_li(microglia_im)
-                    binary_li = microglia_im > thresh_li
 
-                    objects = label(binary_li)
-                    objects = clear_border(objects)
-                    large_objects = remove_small_objects(objects, min_size=8590)
-                    small_objects = label((objects ^ large_objects) > thresh_li)
-
-                    binary_li = ndimage.binary_fill_holes(remove_small_objects(small_objects > thresh_li, min_size=71))
-
-                    scaled_img = ((img - img.min()) * (1/(img.max() - img.min()) * 255)).astype('uint8')
-                    hist = np.histogram(scaled_img.flatten(), range=[0,50], bins=50)
-
-                    if hist[0][0] > (hist[0][1] + hist[0][2]):
+                    img = tiff.imread(input_path)
+                    
+                    binary_li = create_microglia_mask(img)
 
                         # Save the binary mask as .npy
-                        np.save(output_path, binary_li)
-                        #print(f"Processed: {input_path} -> {output_path}")
-
-                    else:
-                        print("Too much background, not using image")
+                    np.save(output_path, binary_li)
+                        
 
                 except Exception as e:
                     print(f"Error processing {input_path}: {e}")

@@ -5,13 +5,13 @@ from collections import defaultdict
 from sklearn.model_selection import train_test_split
 
 # Define your base directory and target directories for training and testing
-base_dir = "/Users/nelsschimek/Documents/nancelab/Data/mito_images/brendan_full_analysis/tifs/"
-train_dir = "/Users/nelsschimek/Documents/nancelab/Data/mito_images/brendan_full_analysis/tifs/training"
-test_dir = "/Users/nelsschimek/Documents/nancelab/Data/mito_images/brendan_full_analysis/tifs/testing"
+base_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs"
+train_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs/training"
+test_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs/testing"
 
 # Define a list of subfolder names or patterns to look for
-treatment_conditions = ["24R_control", "24R_OGD", "2R_control", "2R_OGD", "30mR_control", "OGD_only", "ORST"]
-groups = ["vampire_data"]
+treatment_conditions = ["Left_HC", "Right_HC"]
+groups = ["Blast_45_angle_5", "Blast_45_angle_6", "Blast_prone_7", "Blast_prone_8", "Blast_prone_9", "Sham_3"]
 
 # Create training and testing directories if they don't exist
 os.makedirs(train_dir, exist_ok=True)
