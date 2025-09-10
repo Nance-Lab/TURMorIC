@@ -31,7 +31,8 @@ for root, _, files in os.walk(input_folder):
             os.makedirs(output_subfolder, exist_ok=True)
 
             # Construct output file path
-            output_path = os.path.join(output_subfolder, file.replace(".nd2", ".tif"))
+            output_path = os.path.join(output_subfolder, file.replace(".nd2",
+                                                                      ".tif"))
 
             try:
                 # Open the .nd2 file
@@ -40,11 +41,11 @@ for root, _, files in os.walk(input_folder):
                     data = nd2_file.asarray()
 
                     # Save the image data as .tif
-                    tifffile.imwrite(output_path, data, photometric="minisblack")
+                    tifffile.imwrite(output_path, data,
+                                     photometric="minisblack")
                     print(f"Converted: {input_path} -> {output_path}")
             except Exception as e:
                 print(f"Error converting {input_path}: {e}")
 
+
 print(f"Conversion completed. TIF files are saved in '{output_folder}'.")
-
-

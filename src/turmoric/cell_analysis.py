@@ -121,12 +121,16 @@ def apply_regionprops_recursively(input_folder: str, properties_list: tuple=(
     all_dataframes = []  # List to store individual DataFrames
 
     # Recursively walk through input folder and process .npy files
-    file_list = recursively_get_all_filepaths(input_folder, '.npy')
-    for file in file_list:
-        try:
-            all_dataframes.append(apply_regionprops(file, properties_list))
+    for root, _, files in os.walk(input_folder):
+        for file in files:
+            if file.endswith("li_thresh.npy"):
+                file_path = os.path.join(root, file)
 
-        except Exception as e:
-            print(f"Error processing {file}: {e}")
+                try:
+                    df = apply_regionprops(file_path, properties_list)
+                    all_dataframes.append(df)
+
+                except Exception as e:
+                    print(f"Error processing {file_path}: {e}")
 
     return pd.concat(all_dataframes, ignore_index=True)

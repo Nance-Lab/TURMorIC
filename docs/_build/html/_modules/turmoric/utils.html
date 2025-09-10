@@ -1,0 +1,171 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>turmoric.utils &mdash; TURMorIC 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            TURMorIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../turmoric.html">turmoric package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">TURMorIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">turmoric.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for turmoric.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Takes in a directory of images to separate them into training and testing data.</span>
+
+<span class="sd">The image directory is passed into the function along with groups like</span>
+<span class="sd">brain region or sex as well as treatment conditions of the slices. The</span>
+<span class="sd">function then splits the images into a 80:20 training and testing data</span>
+<span class="sd">without data leakage. The data is grouped by slice and treatment</span>
+<span class="sd">conditions in new training and testing directories.</span>
+
+<span class="sd">Parameters:</span>
+<span class="sd">    base_dir: The directory of all images to be used for training and testing.</span>
+<span class="sd">    groups: The variable groups of the images like brain region or subject sex.</span>
+<span class="sd">    treatment_conditions: The treatment applied to the slices.</span>
+
+<span class="sd">Returns:</span>
+<span class="sd">    train_dir: The directory of training files from an 80:20 split from the base directory.</span>
+<span class="sd">    test_dir: The directory of testing files from an 80:20 split from the base directory.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Function to organize files into training and testing folders without slice leakage</span>
+<div class="viewcode-block" id="organize_files_without_leakage">
+<a class="viewcode-back" href="../../turmoric.html#turmoric.utils.organize_files_without_leakage">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">organize_files_without_leakage</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">treatment_conditions</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">treatment_conditions</span><span class="p">:</span>
+            <span class="n">condition_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">condition_path</span><span class="p">):</span>
+                <span class="k">continue</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;processing </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">condition</span><span class="si">}</span><span class="s1"> :)&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Group files by brain slice</span>
+            <span class="n">slice_files</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">condition_path</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)):</span>
+                    <span class="c1"># Extract slice_id based on the naming pattern</span>
+                    <span class="n">slice_id</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># Extract the third element (Slice204)</span>
+                    <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            
+            <span class="c1"># Split slices into training and testing</span>
+            <span class="n">slice_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">slice_files</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># For reproducibility</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">slice_ids</span><span class="p">)</span>
+            
+            <span class="n">split_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slice_ids</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">test_size</span><span class="p">))</span>
+            <span class="n">train_slices</span> <span class="o">=</span> <span class="n">slice_ids</span><span class="p">[:</span><span class="n">split_index</span><span class="p">]</span>
+            <span class="n">test_slices</span> <span class="o">=</span> <span class="n">slice_ids</span><span class="p">[</span><span class="n">split_index</span><span class="p">:]</span>
+            
+            <span class="c1"># Create subdirectories for training and testing</span>
+            <span class="n">train_subdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
+            <span class="n">test_subdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">train_subdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">test_subdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="c1"># Move files to the appropriate folders</span>
+            <span class="k">for</span> <span class="n">slice_id</span> <span class="ow">in</span> <span class="n">train_slices</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+            
+            <span class="k">for</span> <span class="n">slice_id</span> <span class="ow">in</span> <span class="n">test_slices</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span></div>
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

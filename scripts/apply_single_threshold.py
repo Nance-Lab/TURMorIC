@@ -4,6 +4,27 @@ from skimage import io, filters, morphology
 from scipy import ndimage
 import click
 from pathlib import Path
+from skimage.measure import block_reduce, label, regionprops
+from skimage.morphology import remove_small_objects
+from skimage.segmentation import clear_border
+import tifffile as tiff
+
+def create_microglia_mask(image, threshold_method=filters.threshold_li):
+
+    thresh_li = threshold_method(image)
+    binary_li = image > thresh_li
+
+    objects = label(binary_li)
+    objects = clear_border(objects)
+    large_objects = remove_small_objects(objects, min_size=50000)
+    small_objects = label((objects ^ large_objects) > thresh_li)
+
+    binary_li = ndimage.binary_fill_holes(remove_small_objects(small_objects > thresh_li, min_size=500))
+
+    #scaled_img = ((image - image.min()) * (1/(image.max() - image.min()) * 255)).astype('uint8')
+    #hist = np.histogram(scaled_img.flatten(), range=[0,50], bins=50)
+    return binary_li
+
 
 
 @click.command()
@@ -48,24 +69,21 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 
                 try:
                     # Read the image
-                    im = io.imread(input_path)
+                    img = io.imread(input_path)
 
                     # Assume the second channel is the microglia channel
-                    microglia_im = im[:, :, 1] if im.ndim == 3 else im
+                    microglia_im = img[:, :, 1] if img.ndim == 3 else img
 
                     # Apply Li threshold
-                    thresh_li = filters.threshold_li(microglia_im)
-                    binary_li = microglia_im > thresh_li
 
-                    # Remove small objects and fill holes
-                    binary_li = morphology.remove_small_objects(
-                        binary_li, min_size=size
-                        )
-                    binary_li = ndimage.binary_fill_holes(binary_li)
 
-                    # Save the binary mask as .npy
+                    # img = tiff.imread(input_path)
+                    
+                    binary_li = create_microglia_mask(microglia_im)
+
+                        # Save the binary mask as .npy
                     np.save(output_path, binary_li)
-                    print(f"Processed: {input_path} -> {output_path}")
+                        
 
                 except Exception as e:
                     print(f"Error processing {input_path}: {e}")
