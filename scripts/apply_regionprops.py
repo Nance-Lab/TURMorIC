@@ -3,10 +3,12 @@ from turmoric.cell_analysis import apply_regionprops_recursively
 import click
 import numpy as np
 
-props_list = ('area', 'bbox_area', 'centroid', 'convex_area',
-              'eccentricity', 'equivalent_diameter', 'euler_number',
-              'extent', 'filled_area', 'major_axis_length',
-              'minor_axis_length', 'orientation', 'perimeter', 'solidity')
+# props_list = ('area', 'bbox_area', 'centroid', 'convex_area',
+#               'eccentricity', 'equivalent_diameter', 'euler_number',
+#               'extent', 'filled_area', 'major_axis_length',
+#               'minor_axis_length', 'orientation', 'perimeter', 'solidity')
+
+props_list = ('area', 'perimeter')
 
 
 @click.command()
@@ -16,7 +18,7 @@ props_list = ('area', 'bbox_area', 'centroid', 'convex_area',
 def recursively_apply_regionprops(input_folder, output_csv):
     regionprops_df = apply_regionprops_recursively(input_folder, props_list)
     regionprops_df['circularity'] = 4*np.pi*regionprops_df.area/regionprops_df.perimeter**2
-    regionprops_df['aspect_ratio'] = regionprops_df.major_axis_length/regionprops_df.minor_axis_length
+    #regionprops_df['aspect_ratio'] = regionprops_df.major_axis_length/regionprops_df.minor_axis_length
     regionprops_df.to_csv(output_csv, index=False)
 
 

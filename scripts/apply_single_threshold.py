@@ -64,16 +64,16 @@ def apply_li_threshold(input_folder, output_folder, size=71):
 
                 try:
                     # Read the image
-                    #img = io.imread(input_path)
+                    img = io.imread(input_path)
 
                     # Assume the second channel is the microglia channel
-                    #microglia_im = img[:, :, 1] if img.ndim == 3 else img
+                    microglia_im = img[:, :, 1] if img.ndim == 3 else img
 
                     # Apply Li threshold
 
-                    img = tiff.imread(input_path)
+                    # img = tiff.imread(input_path)
                     
-                    binary_li = create_microglia_mask(img)
+                    binary_li = create_microglia_mask(microglia_im)
 
                         # Save the binary mask as .npy
                     np.save(output_path, binary_li)
