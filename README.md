@@ -27,7 +27,7 @@ This directory contains all of the source code for the functions of the TURMorIC
 # test Directory 
 This directory holds all of the test functions for each of the components. This includes functions to test if the image directory exists, cleaning the file and folder paths, adjusting contrast among other preprocessing steps.
 _________________________________________________________________
- ##Installation Instructions 
+## Installation Instructions 
 To get started with TURMERIC, follow these steps:
 
 Prerequisites:

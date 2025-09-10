@@ -14,3 +14,4 @@ dependencies:
   - tifffile>=2025.3.13
   - pip:
     - opencv-python>=4.11
+    - nd2
