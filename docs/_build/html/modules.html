@@ -40,9 +40,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -76,9 +90,9 @@
 <li class="toctree-l1"><a class="reference internal" href="turmoric.html">turmoric package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.apply_thresholds">turmoric.apply_thresholds module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.apply_thresholds.apply_all_thresh"><code class="docutils literal notranslate"><span class="pre">apply_all_thresh()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.apply_thresholds.apply_li_threshold"><code class="docutils literal notranslate"><span class="pre">apply_li_threshold()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.apply_thresholds.apply_li_threshold_recursively"><code class="docutils literal notranslate"><span class="pre">apply_li_threshold_recursively()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.apply_thresholds.threshold_helper_func"><code class="docutils literal notranslate"><span class="pre">threshold_helper_func()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.apply_thresholds.apply_threshold_recursively"><code class="docutils literal notranslate"><span class="pre">apply_threshold_recursively()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.cell_analysis">turmoric.cell_analysis module</a><ul>
@@ -88,10 +102,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.image_process">turmoric.image_process module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.load_npy_file"><code class="docutils literal notranslate"><span class="pre">load_npy_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.load_tif_file"><code class="docutils literal notranslate"><span class="pre">load_tif_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.nd2_to_tif"><code class="docutils literal notranslate"><span class="pre">nd2_to_tif()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.normalize_npy_data"><code class="docutils literal notranslate"><span class="pre">normalize_npy_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.save_npy_as_tif"><code class="docutils literal notranslate"><span class="pre">save_npy_as_tif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.nd2_to_tif"><code class="docutils literal notranslate"><span class="pre">nd2_to_tif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.image_process.load_tif_file"><code class="docutils literal notranslate"><span class="pre">load_tif_file()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.main">turmoric.main module</a><ul>
@@ -100,15 +114,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.utils">turmoric.utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.utils.organize_files_without_leakage"><code class="docutils literal notranslate"><span class="pre">organize_files_without_leakage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.utils.recursively_get_all_filepaths"><code class="docutils literal notranslate"><span class="pre">recursively_get_all_filepaths()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.vampire_model">turmoric.vampire_model module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.apply_model"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.apply_model()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.create_apply_dataframe"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.create_apply_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.__init__"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.extract_features"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.extract_features()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.run_full_pipeline"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.run_full_pipeline()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.train_model"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.train_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.create_apply_dataframe"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.create_apply_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.apply_model"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.apply_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="turmoric.html#turmoric.vampire_model.VampireModelTrainer.run_full_pipeline"><code class="docutils literal notranslate"><span class="pre">VampireModelTrainer.run_full_pipeline()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -128,7 +144,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

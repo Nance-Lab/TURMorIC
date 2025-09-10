@@ -1,0 +1,104 @@
+/* Custom CSS for TURMorIC documentation */
+
+/* Improve function signature readability */
+.sig-name {
+    font-weight: bold;
+    color: #2980b9;
+}
+
+.sig-param {
+    font-style: normal;
+}
+
+/* Better spacing for function documentation */
+.py.function {
+    margin-bottom: 2em;
+}
+
+/* Highlight code examples */
+.highlight-python {
+    border-left: 4px solid #2980b9;
+    padding-left: 1em;
+    margin: 1em 0;
+}
+
+/* Improve autosummary tables */
+.autosummary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.autosummary td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e1e4e5;
+}
+
+.autosummary tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Better parameter list formatting */
+.field-list dt {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.field-list dd {
+    margin-left: 2em;
+    margin-bottom: 0.5em;
+}
+
+/* Improve navigation sidebar */
+.wy-nav-side {
+    width: 320px;
+}
+
+.wy-nav-content {
+    margin-left: 320px;
+}
+
+/* Make function names more prominent in nav */
+.wy-menu-vertical li.toctree-l3 > a {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 90%;
+}
+
+/* Improve glossary appearance */
+.glossary dt {
+    font-weight: bold;
+    font-size: 110%;
+    color: #2980b9;
+    margin-top: 1em;
+}
+
+.glossary dd {
+    margin-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+/* Better spacing for examples */
+.section .section {
+    margin-top: 1.5em;
+}
+
+/* Highlight return types */
+.field-list .field-name {
+    font-weight: bold;
+    color: #8e44ad;
+}
+
+/* Improve table appearance */
+table.docutils {
+    border: none;
+    border-collapse: collapse;
+}
+
+table.docutils td, table.docutils th {
+    border: 1px solid #e1e4e5;
+    padding: 8px 12px;
+}
+
+table.docutils th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}

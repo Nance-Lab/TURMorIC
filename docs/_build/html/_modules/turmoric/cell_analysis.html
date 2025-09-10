@@ -39,9 +39,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -73,10 +87,48 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">skimage.measure</span><span class="w"> </span><span class="kn">import</span> <span class="n">label</span><span class="p">,</span> <span class="n">regionprops_table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursively_get_all_filepaths</span>
+
 
 <div class="viewcode-block" id="apply_regionprops">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.cell_analysis.apply_regionprops">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_regionprops</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">properties_list</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_regionprops</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">properties_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute region properties from a binary mask stored in a .npy file.</span>
+
+<span class="sd">    This function loads a binary mask from a NumPy `.npy` file, labels connected regions,</span>
+<span class="sd">    computes specified region properties using `skimage.measure.regionprops_table`, and</span>
+<span class="sd">    returns the results as a pandas DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : str</span>
+<span class="sd">        Path to the `.npy` file containing a binary mask (2D NumPy array of 0s and 1s).</span>
+<span class="sd">    properties_list : list of str</span>
+<span class="sd">        List of region properties to compute. These should be valid property names</span>
+<span class="sd">        accepted by `skimage.measure.regionprops_table`, such as &#39;area&#39;, &#39;centroid&#39;,</span>
+<span class="sd">        &#39;eccentricity&#39;, etc.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    props_df : pandas.DataFrame</span>
+<span class="sd">        A DataFrame containing the computed region properties for each labeled region.</span>
+<span class="sd">        Includes an additional column `&#39;filename&#39;` with the source file path.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The binary mask should be a 2D NumPy array saved with `np.save`.</span>
+<span class="sd">    - Each row in the resulting DataFrame corresponds to a connected region in the mask.</span>
+<span class="sd">    - For valid property names, see the documentation for `skimage.measure.regionprops_table`.</span>
+<span class="sd">    - The binary mask should be a 2D array where foreground regions are marked with 1s.</span>
+<span class="sd">    - Connected components are labeled using 8-connectivity by default.</span>
+<span class="sd">    - This function is useful for batch processing of image masks in segmentation tasks.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; props_df = apply_regionprops(&quot;mask_01.npy&quot;, [&quot;area&quot;, &quot;centroid&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; print(props_df.head())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Load the binary mask</span>
     <span class="n">binary_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -97,19 +149,61 @@
 
 <div class="viewcode-block" id="apply_regionprops_recursively">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.cell_analysis.apply_regionprops_recursively">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_regionprops_recursively</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="n">properties_list</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_area&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;convex_area&#39;</span><span class="p">,</span> 
-                   <span class="s1">&#39;eccentricity&#39;</span><span class="p">,</span> <span class="s1">&#39;equivalent_diameter&#39;</span><span class="p">,</span> <span class="s1">&#39;euler_number&#39;</span><span class="p">,</span> 
-                   <span class="s1">&#39;extent&#39;</span><span class="p">,</span> <span class="s1">&#39;filled_area&#39;</span><span class="p">,</span> <span class="s1">&#39;major_axis_length&#39;</span><span class="p">,</span> 
-                   <span class="s1">&#39;minor_axis_length&#39;</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter&#39;</span><span class="p">,</span> <span class="s1">&#39;solidity&#39;</span><span class="p">)):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_regionprops_recursively</span><span class="p">(</span><span class="n">input_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">properties_list</span><span class="p">:</span> <span class="nb">tuple</span><span class="o">=</span><span class="p">(</span>
+                                <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox_area&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;convex_area&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;eccentricity&#39;</span><span class="p">,</span> <span class="s1">&#39;equivalent_diameter&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;euler_number&#39;</span><span class="p">,</span> <span class="s1">&#39;extent&#39;</span><span class="p">,</span> <span class="s1">&#39;filled_area&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;major_axis_length&#39;</span><span class="p">,</span> <span class="s1">&#39;minor_axis_length&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;orientation&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter&#39;</span><span class="p">,</span> <span class="s1">&#39;solidity&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Processes all `.npy` files in the input folder (and subfolders), applies labeling,</span>
-<span class="sd">    calculates properties, and saves results in a CSV file.</span>
+<span class="sd">    Recursively applies region properties extraction to all `.npy` files in a directory.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    - input_folder: Path to the folder containing `.npy` files.</span>
-<span class="sd">    - properties_list: List of properties to calculate using regionprops_table.</span>
+<span class="sd">    This function traverses the given input folder and its subfolders to find all `.npy` files.</span>
+<span class="sd">    Each file is assumed to contain a labeled image (e.g., from segmentation). The function uses</span>
+<span class="sd">    `apply_regionprops` to extract specified properties from each labeled region and returns a combined</span>
+<span class="sd">    pandas DataFrame of all results.</span>
+<span class="sd"> </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_folder : str</span>
+<span class="sd">        Path to the root directory containing `.npy` binary mask files.</span>
+<span class="sd">    properties_list : tuple of str, optional</span>
+<span class="sd">        A tuple of region properties to compute for each labeled region in the binary masks.</span>
+<span class="sd">        Default includes a comprehensive set of geometric properties such as &#39;area&#39;,</span>
+<span class="sd">        &#39;centroid&#39;, &#39;eccentricity&#39;, etc. Valid property names must be accepted by</span>
+<span class="sd">        `skimage.measure.regionprops_table`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        A concatenated DataFrame containing region properties from all processed files.</span>
+<span class="sd">        Each row corresponds to a labeled region and includes a &#39;filename&#39; column indicating</span>
+<span class="sd">        the source file.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If the input folder does not exist.</span>
+<span class="sd">    Exception</span>
+<span class="sd">        If an error occurs while processing a file, it is caught and printed, but processing continues.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Binary masks must be stored as `.npy` files containing 2D NumPy arrays.</span>
+<span class="sd">    - If a file cannot be processed, an error message is printed and processing continues.</span>
+<span class="sd">    - Requires `recursively_get_all_filepaths` to collect `.npy` file paths.</span>
+<span class="sd">    - Uses `apply_regionprops` to compute the region properties and returns a DataFrame.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; df = apply_regionprops_recursively(&#39;/path/to/npy_files&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; print(df.head())</span>
+
+<span class="sd">    &gt;&gt;&gt; df = apply_regionprops_recursively(&#39;/data/images&#39;, properties_list=(&#39;area&#39;, &#39;centroid&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; df[[&#39;area&#39;, &#39;centroid-0&#39;, &#39;centroid-1&#39;]].plot.scatter(x=&#39;centroid-0&#39;, y=&#39;centroid-1&#39;, c=&#39;area&#39;, colormap=&#39;viridis&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+   
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">input_folder</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Input folder &#39;</span><span class="si">{</span><span class="n">input_folder</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
@@ -131,8 +225,6 @@
 
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-
-           
 </pre></div>
 
            </div>
@@ -142,7 +234,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

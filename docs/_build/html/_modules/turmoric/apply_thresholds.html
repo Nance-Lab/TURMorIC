@@ -39,9 +39,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -73,82 +87,290 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">morphology</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ndimage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursively_get_all_filepaths</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_isodata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_li</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_mean</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_minimum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_otsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_triangle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">threshold_yen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+
+
+<div class="viewcode-block" id="apply_all_thresh">
+<a class="viewcode-back" href="../../turmoric.html#turmoric.apply_thresholds.apply_all_thresh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_all_thresh</span><span class="p">(</span><span class="n">input_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply multiple thresholding algorithms to .tif images and save comparison plots.</span>
+
+<span class="sd">    This function loads all `.tif` images found recursively in the input folder.</span>
+<span class="sd">    For each image, it extracts the specified channel (if multi-channel), applies a suite</span>
+<span class="sd">    of thresholding methods using `skimage.filters.try_all_threshold`, and saves the resulting</span>
+<span class="sd">    comparison figure to the output folder.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_folder : str</span>
+<span class="sd">        Path to the folder containing input `.tif` images.</span>
+<span class="sd">    output_folder : str</span>
+<span class="sd">        Path to the folder where output thresholding comparison plots will be saved.</span>
+<span class="sd">    channel : int, optional</span>
+<span class="sd">        Index of the image channel to process if the image is multi-channel (default is 1).</span>
+<span class="sd">    figsize : tuple of int, optional</span>
+<span class="sd">        Size of the matplotlib figure for the thresholding comparison plot (default is (10, 8)).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        This function does not return anything. It saves output images to the specified folder.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Requires `recursively_get_all_filepaths` function to retrieve file paths recursively.</span>
+<span class="sd">    - Uses `skimage.io.imread` to read images and `skimage.filters.try_all_threshold` to apply</span>
+<span class="sd">      thresholding methods.</span>
+<span class="sd">    - Output images are saved with filenames ending in `_all_thresh.tif`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from my_thresholding_module import apply_all_thresh</span>
+<span class="sd">    &gt;&gt;&gt; input_dir = &quot;data/microscopy_images&quot;</span>
+<span class="sd">    &gt;&gt;&gt; output_dir = &quot;results/thresholding_plots&quot;</span>
+<span class="sd">    &gt;&gt;&gt; apply_all_thresh(input_dir, output_dir, channel=0, figsize=(12, 10))</span>
+
+<span class="sd">    This will process all `.tif` images in &#39;data/microscopy_images&#39;, apply thresholding to channel 0,</span>
+<span class="sd">    and save the comparison plots in &#39;results/thresholding_plots&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">thresh</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A wrapper function to return a thresholded image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">im</span> <span class="o">&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">wrapper</span><span class="o">.</span><span class="n">__orifunc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__orifunc__</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">wrapper</span><span class="o">.</span><span class="n">__orifunc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="c1"># Global algorithms.</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;Isodata&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_isodata</span><span class="p">),</span>
+            <span class="s1">&#39;Li&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_li</span><span class="p">),</span>
+            <span class="s1">&#39;Mean&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_mean</span><span class="p">),</span>
+            <span class="s1">&#39;Minimum&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_minimum</span><span class="p">),</span>
+            <span class="s1">&#39;Otsu&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_otsu</span><span class="p">),</span>
+            <span class="s1">&#39;Triangle&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_triangle</span><span class="p">),</span>
+            <span class="s1">&#39;Yen&#39;</span><span class="p">:</span> <span class="n">thresh</span><span class="p">(</span><span class="n">threshold_yen</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">file_list</span> <span class="o">=</span> <span class="n">recursively_get_all_filepaths</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">microglia_im</span> <span class="o">=</span> <span class="n">im</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">im</span>
+        <span class="c1"># fig, ax = filters.try_all_threshold(microglia_im,</span>
+        <span class="c1">#                                     figsize=figsize,</span>
+        <span class="c1">#                                     verbose=False)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">microglia_im</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Image&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">microglia_im</span><span class="p">))</span>
+                <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="mf">0.5</span><span class="p">,</span>
+                    <span class="mf">0.5</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>  <span class="c1"># Hide the last unused subplot</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thresholding Comparison for </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span>
+                                   <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                                       <span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;_all_thresh.tif&#39;</span><span class="p">))</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
 
 <div class="viewcode-block" id="apply_li_threshold">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.apply_thresholds.apply_li_threshold">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_li_threshold</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_li_threshold</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Applies Li thresholding to all .tif images in the input folder (and subfolders)</span>
-<span class="sd">    and saves the binary masks in the output folder.</span>
+<span class="sd">    Apply Li thresholding to an .tif image and returns a binary mask.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    - input_folder: Path to the folder containing .tif images.</span>
-<span class="sd">    - output_folder: Path to save the processed binary masks.</span>
-<span class="sd">    - min_object_size: Minimum size of objects to retain in the binary mask.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-   
+<span class="sd">    This function reads an image from the specified file path, selects the specified</span>
+<span class="sd">    channel, and applies Li&#39;s thresholding method to generate a binary image. Pixels</span>
+<span class="sd">    with intensity values greater than the threshold are set to True.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : str</span>
+<span class="sd">        Path to the image file to be processed.</span>
+<span class="sd">    channel : int, optional</span>
+<span class="sd">        Index of the color channel to use if the image is RGB or multi-channel.</span>
+<span class="sd">        Default is 1 (typically the green channel in RGB images).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    binary_li : ndarray of bool</span>
+<span class="sd">        A 2D binary image where True indicates pixels above the Li threshold.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Li thresholding is an iterative method that minimizes the cross-entropy</span>
+<span class="sd">    between the foreground and background pixel distributions.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Li, C.H. and Lee, C.K., 1993. Minimum cross entropy thresholding.</span>
+<span class="sd">    Pattern Recognition, 26(4), pp.617-625.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from skimage import io</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; binary_mask = apply_li_threshold(&quot;microglia_image.tif&quot;, channel=1)</span>
+<span class="sd">    &gt;&gt;&gt; plt.imshow(binary_mask, cmap=&#39;gray&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&quot;Li Thresholded Image&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.axis(&#39;off&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check if the file exists</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the file is a .tif image</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> is not a .tif image.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the channel is valid</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">channel</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Channel must be a non-negative integer.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the file is a valid image</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not read image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the image is multi-channel</span>
+    <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> is not a valid 2D or 3D image.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the channel is valid for the image</span>
+    <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="p">(</span><span class="n">channel</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">channel</span> <span class="o">&gt;=</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Channel </span><span class="si">{</span><span class="n">channel</span><span class="si">}</span><span class="s2"> is out of bounds for image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the image is grayscale</span>
+    <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">channel</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> is grayscale, channel must be 0.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the image is RGB</span>
+    <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> is not RGB, channel must be 0, 1 or 2.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check if the image is RGBA</span>
+    <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> is not RGBA, channel must be 0, 1, 2 or 3.&quot;</span><span class="p">)</span>   
     <span class="c1"># Read the image</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 
-    <span class="c1"># Assume the second channel is the microglia channel</span>
-    <span class="n">microglia_im</span> <span class="o">=</span> <span class="n">im</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">im</span>
+    <span class="n">microglia_im</span> <span class="o">=</span> <span class="n">im</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">channel</span><span class="p">]</span> <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="n">im</span>
 
     <span class="c1"># Apply Li threshold</span>
     <span class="n">thresh_li</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">threshold_li</span><span class="p">(</span><span class="n">microglia_im</span><span class="p">)</span>
     <span class="n">binary_li</span> <span class="o">=</span> <span class="n">microglia_im</span> <span class="o">&gt;</span> <span class="n">thresh_li</span>
 
-    <span class="c1"># Remove small objects and fill holes</span>
-    <span class="n">binary_li</span> <span class="o">=</span> <span class="n">morphology</span><span class="o">.</span><span class="n">remove_small_objects</span><span class="p">(</span><span class="n">binary_li</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
-    <span class="n">binary_li</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">binary_fill_holes</span><span class="p">(</span><span class="n">binary_li</span><span class="p">)</span>
-
     <span class="k">return</span> <span class="n">binary_li</span></div>
 
 
 
+<div class="viewcode-block" id="apply_threshold_recursively">
+<a class="viewcode-back" href="../../turmoric.html#turmoric.apply_thresholds.apply_threshold_recursively">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_threshold_recursively</span><span class="p">(</span><span class="n">input_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;./thresh_output/&#39;</span><span class="p">,</span>
+                                <span class="n">threshold_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span><span class="o">=</span><span class="n">apply_li_threshold</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">     </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively applies a thresholding function to all `.tif` images in a directory</span>
+<span class="sd">    and saves the resulting binary images as `.npy` files.</span>
 
-<div class="viewcode-block" id="apply_li_threshold_recursively">
-<a class="viewcode-back" href="../../turmoric.html#turmoric.apply_thresholds.apply_li_threshold_recursively">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_li_threshold_recursively</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./li_output/&#39;</span><span class="p">,</span> <span class="n">threshold_method</span><span class="o">=</span><span class="s1">&#39;li&#39;</span><span class="p">):</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_folder : str</span>
+<span class="sd">        Path to the input directory containing `.tif` image files.</span>
+<span class="sd">    output_folder : str, optional</span>
+<span class="sd">        Path to the output directory where thresholded `.npy` files will be saved.</span>
+<span class="sd">        Defaults to &#39;./thresh_output/&#39;.</span>
+<span class="sd">    threshold_funcion : callable, optional</span>
+<span class="sd">        A function that takes a file path as input and returns a binary NumPy array.</span>
+<span class="sd">        Defaults to `apply_li_threshold`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">            This function does not return a value. It saves the binary images as `.npy` files</span>
+<span class="sd">            in the specified output directory.</span>
+
+<span class="sd">    </span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Prints error messages if:</span>
+<span class="sd">        - The input folder does not exist.</span>
+<span class="sd">        - Any file fails to process due to an exception.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The function assumes that `recursively_get_all_filepaths` is defined elsewhere and</span>
+<span class="sd">      returns a list of `.tif` file paths.</span>
+<span class="sd">    - The thresholding function should return a binary NumPy array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; def dummy_threshold(file_path):</span>
+<span class="sd">    ...     import numpy as np</span>
+<span class="sd">    ...     return np.ones((100, 100), dtype=bool)  # Dummy binary image</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; apply_threshold_recursively(&#39;path/to/tif_images&#39;,</span>
+<span class="sd">    ...                              output_folder=&#39;path/to/output&#39;,</span>
+<span class="sd">    ...                              threshold_funcion=dummy_threshold)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">input_folder</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Input folder &#39;</span><span class="si">{</span><span class="n">input_folder</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    
-    <span class="n">threshold_function</span> <span class="o">=</span> <span class="n">threshold_helper_func</span><span class="p">(</span><span class="n">threshold_method</span><span class="p">)</span>
 
     <span class="c1"># Create output folder if it doesn&#39;t exist</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># Walk through all files and subfolders</span>
-    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">input_folder</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
-                <span class="c1"># Full input path</span>
-                <span class="n">input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="n">file_list</span> <span class="o">=</span> <span class="n">recursively_get_all_filepaths</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
 
-                <span class="c1"># Create corresponding output subfolder</span>
-                <span class="n">relative_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">input_folder</span><span class="p">)</span>
-                <span class="n">output_subfolder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">relative_path</span><span class="p">)</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_subfolder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-                <span class="c1"># Full output path</span>
-                <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_subfolder</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">threshold_method</span> <span class="o">+</span> <span class="s2">&quot;_thresh.npy&quot;</span><span class="p">))</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">binary_image</span> <span class="o">=</span> <span class="n">threshold_function</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">binary_image</span><span class="p">)</span>
-                    
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing </span><span class="si">{</span><span class="n">input_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing completed. Results are saved in &#39;</span><span class="si">{</span><span class="n">output_folder</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="threshold_helper_func">
-<a class="viewcode-back" href="../../turmoric.html#turmoric.apply_thresholds.threshold_helper_func">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">threshold_helper_func</span><span class="p">(</span><span class="n">threshold</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">threshold</span> <span class="o">==</span> <span class="s1">&#39;li&#39;</span><span class="p">:</span>
-        <span class="k">return</span>  <span class="n">apply_li_threshold</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Threshold not available. Choose from: li&#39;</span><span class="p">)</span></div>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">binary_image</span> <span class="o">=</span> <span class="n">threshold_function</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span>
+                                       <span class="n">file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;.npy&#39;</span><span class="p">))</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">binary_image</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -159,7 +381,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

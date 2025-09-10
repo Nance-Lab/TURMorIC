@@ -39,9 +39,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -77,7 +91,55 @@
 
 <div class="viewcode-block" id="load_npy_file">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.image_process.load_npy_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_npy_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_npy_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a NumPy `.npy` file and apply connected component labeling.</span>
+
+<span class="sd">    This function loads a binary or labeled image stored in a `.npy` file,</span>
+<span class="sd">    applies connected component labeling using `skimage.measure.label`, and</span>
+<span class="sd">    returns the labeled image data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Directory containing the `.npy` file.</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        Name of the `.npy` file to load.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    image_data : ndarray</span>
+<span class="sd">        A 2D NumPy array where connected components in the binary mask are labeled with</span>
+<span class="sd">        unique integer values. The background is labeled as 0.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        If the file cannot be loaded or processed, an error message is printed</span>
+<span class="sd">        and the exception is raised.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If an error occurs while loading or processing the file, an error message is printed.</span>
+<span class="sd">    - The function assumes the `.npy` file contains a 2D binary mask (e.g., values of 0 and 1).</span>
+<span class="sd">    - Uses `skimage.measure.label` for connected component labeling.</span>
+<span class="sd">Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from skimage import measure</span>
+<span class="sd">    &gt;&gt;&gt; import os</span>
+<span class="sd">    &gt;&gt;&gt; image = np.zeros((5, 5), dtype=int)</span>
+<span class="sd">    &gt;&gt;&gt; image[1:3, 1:3] = 1</span>
+<span class="sd">    &gt;&gt;&gt; image[3:5, 3:5] = 1</span>
+<span class="sd">    &gt;&gt;&gt; np.save(&#39;example.npy&#39;, image)</span>
+<span class="sd">    &gt;&gt;&gt; labeled = load_npy_file(&#39;.&#39;, &#39;example.npy&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; print(labeled)</span>
+<span class="sd">    [[0 0 0 0 0]</span>
+<span class="sd">     [0 1 1 0 0]</span>
+<span class="sd">     [0 1 1 0 0]</span>
+<span class="sd">     [0 0 0 2 2]</span>
+<span class="sd">     [0 0 0 2 2]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">npy_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -90,10 +152,59 @@
 
 <div class="viewcode-block" id="normalize_npy_data">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.image_process.normalize_npy_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">normalize_npy_data</span><span class="p">(</span><span class="n">npy_image_data</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_npy_data</span><span class="p">(</span><span class="n">npy_image_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize NumPy image data array to uint8 format.</span>
+
+<span class="sd">    This function converts a NumPy array representing image data into a </span>
+<span class="sd">    normalized 8-bit unsigned integer format (`uint8`), suitable for image </span>
+<span class="sd">    processing and visualization. It handles boolean arrays by mapping </span>
+<span class="sd">    `True` to 255 and `False` to 0. For non-uint8 numeric arrays, it scales </span>
+<span class="sd">    the values to the [0, 255] range.If the input is not already `uint8`, it</span>
+<span class="sd">    is linearly scaled to the range [0, 255].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    npy_image_data : np.ndarray</span>
+<span class="sd">        A NumPy array containing image data. Can be of dtype `bool`, </span>
+<span class="sd">        `float`, `int`, etc. The array must be 2D or compatible with</span>
+<span class="sd">        image-like data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    normalized_image_data : np.ndarray</span>
+<span class="sd">        A NumPy array of dtype `uint8` with values scaled to the range [0, 255].</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Boolean arrays are multiplied by 255 to convert to `uint8`.</span>
+<span class="sd">    - For non-boolean arrays, the data is scaled as:</span>
+<span class="sd">        `(array - array.min()) / (array.max() - array.min()) * 255`</span>
+<span class="sd">    - A small epsilon (`1e-8`) is added to the denominator to prevent division by zero.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import normalize_npy_data</span>
+
+<span class="sd">    # Example with float data</span>
+<span class="sd">    &gt;&gt;&gt; float_image = np.random.rand(100, 100)  # Values in [0, 1]</span>
+<span class="sd">    &gt;&gt;&gt; normalized = normalize_npy_data(float_image)</span>
+<span class="sd">    &gt;&gt;&gt; normalized.dtype</span>
+<span class="sd">    dtype(&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; normalized.min(), normalized.max()</span>
+<span class="sd">    (0, 255)</span>
+
+<span class="sd">    # Example with boolean mask</span>
+<span class="sd">    &gt;&gt;&gt; bool_mask = np.array([[True, False], [False, True]])</span>
+<span class="sd">    &gt;&gt;&gt; normalized_mask = normalize_npy_data(bool_mask)</span>
+<span class="sd">    &gt;&gt;&gt; normalized_mask</span>
+<span class="sd">    array([[255,   0],</span>
+<span class="sd">           [  0, 255]], dtype=uint8)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">npy_image_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span>
-            <span class="c1"># Convert boolean to uint8 (True -&gt; 255, False -&gt; 0)</span>
-            <span class="n">normalized_image_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">npy_image_data</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="c1"># Convert boolean to uint8 (True -&gt; 255, False -&gt; 0)</span>
+        <span class="n">normalized_image_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">npy_image_data</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Normalize and scale image data to uint8 if it&#39;s not already</span>
         <span class="k">if</span> <span class="n">npy_image_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
@@ -122,7 +233,39 @@
     
 <div class="viewcode-block" id="nd2_to_tif">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.image_process.nd2_to_tif">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">nd2_to_tif</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nd2_to_tif</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an `.nd2` microscopy image file to a `.tif` file.</span>
+
+<span class="sd">    This function reads a Nikon ND2 image file from the specified path and converts it</span>
+<span class="sd">    to a TIFF file using `tifffile.imwrite`. The output `.tif` file is saved in the</span>
+<span class="sd">    same directory with the same base name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Directory containing the `.nd2` file.</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        Name of the `.nd2` file to convert.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        The function saves the converted `.tif` file to disk and does not return a value.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Requires `ND2File` from the `nd2` or `nd2reader` library to read ND2 files.</span>
+<span class="sd">    - The converted `.tif` file is saved to the same directory as the input file,</span>
+<span class="sd">      with the `.nd2` extension replaced by `.tif`.</span>
+<span class="sd">    - Ensure that the ND2 file contains a data format compatible with TIFF output.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from my_module import nd2_to_tif</span>
+<span class="sd">    &gt;&gt;&gt; nd2_to_tif(&quot;/data/images&quot;, &quot;sample_image.nd2&quot;)</span>
+<span class="sd">    # This will create a file named &#39;sample_image.tif&#39; in the &#39;/data/images&#39; directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nd2_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
     <span class="n">tif_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.nd2&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">))</span>
     
@@ -148,7 +291,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

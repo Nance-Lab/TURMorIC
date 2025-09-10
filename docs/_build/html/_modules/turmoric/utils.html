@@ -39,9 +39,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -73,6 +87,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="c1"># from skimage.filters import try_all_threshold</span>
+<span class="c1"># from skimage.filters import threshold_isodata</span>
+<span class="c1"># from skimage.filters import threshold_li</span>
+<span class="c1"># from skimage.filters import threshold_mean</span>
+<span class="c1"># from skimage.filters import threshold_minimum</span>
+<span class="c1"># from skimage.filters import threshold_otsu</span>
+<span class="c1"># from skimage.filters import threshold_triangle</span>
+<span class="c1"># from skimage.filters import threshold_yen</span>
+<span class="c1"># from turmoric.image_process import save_npy_as_tif, nd2_to_tif</span>
+<span class="c1"># from turmoric.cell_analysis import apply_regionprops</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Takes in a directory of images to separate them into training and testing data.</span>
@@ -89,19 +113,77 @@
 <span class="sd">    treatment_conditions: The treatment applied to the slices.</span>
 
 <span class="sd">Returns:</span>
-<span class="sd">    train_dir: The directory of training files from an 80:20 split from the base directory.</span>
-<span class="sd">    test_dir: The directory of testing files from an 80:20 split from the base directory.</span>
+<span class="sd">    train_dir: The directory of training files</span>
+<span class="sd">               from an 80:20 split from the base directory.</span>
+<span class="sd">    test_dir: The directory of testing files</span>
+<span class="sd">               from an 80:20 split from the base directory.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="c1"># Function to organize files into training and testing folders without slice leakage</span>
+
+<span class="c1"># Function to organize files into training and testing folders</span>
+<span class="c1"># without slice leakage</span>
+
+
 <div class="viewcode-block" id="organize_files_without_leakage">
 <a class="viewcode-back" href="../../turmoric.html#turmoric.utils.organize_files_without_leakage">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">organize_files_without_leakage</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">train_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">treatment_conditions</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">organize_files_without_leakage</span><span class="p">(</span><span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">train_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+                                   <span class="n">treatment_conditions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Organize files into training and testing sets without data leakage across brain slices.</span>
+
+<span class="sd">    This function walks through a directory structure organized by experimental `groups`</span>
+<span class="sd">    and `treatment_conditions`, groups image files by brain slice ID (extracted from filenames),</span>
+<span class="sd">    and splits slices into training and testing sets. It ensures that all files from the</span>
+<span class="sd">    same brain slice are allocated to only one set, avoiding data leakage.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    base_dir : str</span>
+<span class="sd">        Root directory containing raw data files structured as `base_dir/group/condition/`.</span>
+<span class="sd">    train_dir : str</span>
+<span class="sd">        Output directory where training files will be copied.</span>
+<span class="sd">    test_dir : str</span>
+<span class="sd">        Output directory where testing files will be copied.</span>
+<span class="sd">    groups : list of str</span>
+<span class="sd">        List of experimental groups (e.g., [&quot;control&quot;, &quot;treated&quot;]).</span>
+<span class="sd">    treatment_conditions : list of str</span>
+<span class="sd">        List of treatment condition subfolders under each group (e.g., [&quot;vehicle&quot;, &quot;drug&quot;]).</span>
+<span class="sd">    test_size : float, optional</span>
+<span class="sd">        Proportion of slices to use for testing. Default is 0.2 (20%).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        The function performs file copying to organize training and testing sets</span>
+<span class="sd">        but does not return a value.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - Slice IDs are extracted from the third underscore-separated token in each filename.</span>
+<span class="sd">      Adjust the parsing logic if your filename structure differs.</span>
+<span class="sd">    - Files are grouped and split at the slice level, not the file level, to prevent data leakage.</span>
+<span class="sd">    - The train/test split is deterministic due to a fixed random seed (`random.seed(42)`).</span>
+<span class="sd">    - Existing files in the output directories will not be overwritten.</span>
+<span class="sd">    - Uses `shutil.copy` to duplicate files into the train/test directories.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; base_dir = &quot;/data/brain_slices&quot;</span>
+<span class="sd">    &gt;&gt;&gt; train_dir = &quot;/data/split/train&quot;</span>
+<span class="sd">    &gt;&gt;&gt; test_dir = &quot;/data/split/test&quot;</span>
+<span class="sd">    &gt;&gt;&gt; groups = [&quot;control&quot;, &quot;treated&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; treatment_conditions = [&quot;drugA&quot;, &quot;drugB&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; organize_files_without_leakage(base_dir, train_dir, test_dir, groups, treatment_conditions)</span>
+<span class="sd">    processing control drugA :)</span>
+<span class="sd">    processing control drugB :)</span>
+<span class="sd">    processing treated drugA :)</span>
+<span class="sd">    processing treated drugB :)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">treatment_conditions</span><span class="p">:</span>
             <span class="n">condition_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">condition_path</span><span class="p">):</span>
                 <span class="k">continue</span>
-            
+
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;processing </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">condition</span><span class="si">}</span><span class="s1"> :)&#39;</span><span class="p">)</span>
 
             <span class="c1"># Group files by brain slice</span>
@@ -109,35 +191,84 @@
             <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">condition_path</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)):</span>
                     <span class="c1"># Extract slice_id based on the naming pattern</span>
-                    <span class="n">slice_id</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># Extract the third element (Slice204)</span>
+                    <span class="c1"># Extract the third element</span>
+                    <span class="n">slice_id</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
                     <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-            
+
             <span class="c1"># Split slices into training and testing</span>
             <span class="n">slice_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">slice_files</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># For reproducibility</span>
             <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">slice_ids</span><span class="p">)</span>
-            
+
             <span class="n">split_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slice_ids</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">test_size</span><span class="p">))</span>
             <span class="n">train_slices</span> <span class="o">=</span> <span class="n">slice_ids</span><span class="p">[:</span><span class="n">split_index</span><span class="p">]</span>
             <span class="n">test_slices</span> <span class="o">=</span> <span class="n">slice_ids</span><span class="p">[</span><span class="n">split_index</span><span class="p">:]</span>
-            
+
             <span class="c1"># Create subdirectories for training and testing</span>
             <span class="n">train_subdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
             <span class="n">test_subdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">train_subdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">test_subdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            
+
             <span class="c1"># Move files to the appropriate folders</span>
             <span class="k">for</span> <span class="n">slice_id</span> <span class="ow">in</span> <span class="n">train_slices</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]:</span>
-                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
-            
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span>
+                                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+
             <span class="k">for</span> <span class="n">slice_id</span> <span class="ow">in</span> <span class="n">test_slices</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">slice_files</span><span class="p">[</span><span class="n">slice_id</span><span class="p">]:</span>
-                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span></div>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">condition_path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span>
+                                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_subdir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span></div>
 
 
 
+<div class="viewcode-block" id="recursively_get_all_filepaths">
+<a class="viewcode-back" href="../../turmoric.html#turmoric.utils.recursively_get_all_filepaths">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">recursively_get_all_filepaths</span><span class="p">(</span><span class="n">input_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively retrieve all file paths of a specific type from a directory.</span>
+
+<span class="sd">    This function walks through a directory tree starting from `input_folder` and collects</span>
+<span class="sd">    the full paths of all files that end with the specified `file_type` extension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_folder : str</span>
+<span class="sd">        Root directory to search for files.</span>
+<span class="sd">    file_type : str</span>
+<span class="sd">        File extension to filter by (e.g., &#39;.tif&#39;, &#39;.npy&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    file_list : list of str</span>
+<span class="sd">        List containing full paths to all files in `input_folder` and its subdirectories</span>
+<span class="sd">        that match the specified file extension.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The function performs a case-sensitive match on the file extension.</span>
+<span class="sd">    - Subdirectories are traversed using `os.walk`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; file_paths = recursively_get_all_filepaths(&#39;/path/to/folder&#39;, &#39;.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; for path in file_paths:</span>
+<span class="sd">    ...     print(path)</span>
+<span class="sd">    /path/to/folder/file1.txt</span>
+<span class="sd">    /path/to/folder/subfolder/file2.txt</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Walk through all files and subfolders</span>
+    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">input_folder</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="c1"># ensure only the correct file type is processed</span>
+            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">file_type</span><span class="p">):</span>
+                <span class="c1"># Full input path</span>
+                <span class="n">input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">file_list</span></div>
 
 </pre></div>
 
@@ -148,7 +279,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

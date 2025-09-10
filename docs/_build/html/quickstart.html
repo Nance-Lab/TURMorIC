@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start Guide &mdash; TURMorIC 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api/modules.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TURMorIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-convert-nd2-to-tiff">Step 1: Convert ND2 to TIFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-apply-thresholding">Step 2: Apply Thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-extract-properties">Step 3: Extract Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-organize-data-for-analysis">Step 4: Organize Data for Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-usage">Command Line Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-complete-analysis-pipeline">Example: Complete Analysis Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-convert-nd2-to-tiff">Step 1: Convert ND2 to TIFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-apply-thresholding">Step 2: Apply Thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-extract-properties">Step 3: Extract Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-organize-data-for-analysis">Step 4: Organize Data for Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-usage">Command Line Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-complete-analysis-pipeline">Example: Complete Analysis Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TURMorIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start-guide">
+<h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Link to this heading"></a></h1>
+<p>This guide will walk you through the basic TURMorIC workflow for analyzing brain slice images.</p>
+<section id="basic-workflow">
+<h2>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading"></a></h2>
+<p>The typical TURMorIC analysis consists of these steps:</p>
+<ol class="arabic simple">
+<li><p><strong>File Conversion</strong>: Convert ND2 files to TIFF format</p></li>
+<li><p><strong>Thresholding</strong>: Apply binary thresholding to segment cells</p></li>
+<li><p><strong>Analysis</strong>: Extract morphological properties</p></li>
+<li><p><strong>Visualization</strong>: Plot results and statistics</p></li>
+</ol>
+<section id="step-1-convert-nd2-to-tiff">
+<h3>Step 1: Convert ND2 to TIFF<a class="headerlink" href="#step-1-convert-nd2-to-tiff" title="Link to this heading"></a></h3>
+<p>If you have ND2 microscopy files, first convert them to TIFF:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.image_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">nd2_to_tif</span>
+
+<span class="c1"># Convert a single file</span>
+<span class="n">nd2_to_tif</span><span class="p">(</span><span class="s2">&quot;path/to/images/&quot;</span><span class="p">,</span> <span class="s2">&quot;sample.nd2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Or use the command line script</span>
+<span class="c1"># python scripts/nd2_to_tif.py input_folder output_folder</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-apply-thresholding">
+<h3>Step 2: Apply Thresholding<a class="headerlink" href="#step-2-apply-thresholding" title="Link to this heading"></a></h3>
+<p>Apply Li thresholding to segment microglia:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.apply_thresholds</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_li_threshold</span>
+
+<span class="c1"># Apply to a single image</span>
+<span class="n">binary_mask</span> <span class="o">=</span> <span class="n">apply_li_threshold</span><span class="p">(</span><span class="s2">&quot;image.tif&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Or process entire directories</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.apply_thresholds</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_threshold_recursively</span>
+
+<span class="n">apply_threshold_recursively</span><span class="p">(</span>
+    <span class="n">input_folder</span><span class="o">=</span><span class="s2">&quot;path/to/images/&quot;</span><span class="p">,</span>
+    <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;path/to/masks/&quot;</span><span class="p">,</span>
+    <span class="n">threshold_function</span><span class="o">=</span><span class="n">apply_li_threshold</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-extract-properties">
+<h3>Step 3: Extract Properties<a class="headerlink" href="#step-3-extract-properties" title="Link to this heading"></a></h3>
+<p>Analyze the segmented cells:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.cell_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_regionprops_recursively</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Extract morphological properties</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter&#39;</span><span class="p">,</span> <span class="s1">&#39;eccentricity&#39;</span><span class="p">,</span> <span class="s1">&#39;solidity&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">apply_regionprops_recursively</span><span class="p">(</span><span class="s2">&quot;path/to/masks/&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+<span class="c1"># Calculate additional metrics</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;circularity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;area&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perimeter&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;aspect_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;major_axis_length&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;minor_axis_length&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-organize-data-for-analysis">
+<h3>Step 4: Organize Data for Analysis<a class="headerlink" href="#step-4-organize-data-for-analysis" title="Link to this heading"></a></h3>
+<p>Organize your data to prevent data leakage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">organize_files_without_leakage</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;treatment&quot;</span><span class="p">]</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;condition_A&quot;</span><span class="p">,</span> <span class="s2">&quot;condition_B&quot;</span><span class="p">]</span>
+
+<span class="n">organize_files_without_leakage</span><span class="p">(</span>
+    <span class="n">base_dir</span><span class="o">=</span><span class="s2">&quot;path/to/data/&quot;</span><span class="p">,</span>
+    <span class="n">train_dir</span><span class="o">=</span><span class="s2">&quot;path/to/training/&quot;</span><span class="p">,</span>
+    <span class="n">test_dir</span><span class="o">=</span><span class="s2">&quot;path/to/testing/&quot;</span><span class="p">,</span>
+    <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
+    <span class="n">treatment_conditions</span><span class="o">=</span><span class="n">conditions</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="command-line-usage">
+<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Link to this heading"></a></h2>
+<p>TURMorIC provides several command-line scripts for common tasks:</p>
+<p><strong>Apply Li thresholding to images:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/apply_single_threshold.py<span class="w"> </span>input_folder<span class="w"> </span>output_folder
+</pre></div>
+</div>
+<p><strong>Compare multiple thresholding methods:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/try_all_thresh.py<span class="w"> </span>input_folder<span class="w"> </span>output_folder
+</pre></div>
+</div>
+<p><strong>Extract region properties:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/apply_regionprops.py<span class="w"> </span>input_folder<span class="w"> </span>output.csv
+</pre></div>
+</div>
+<p><strong>Split files for training/testing:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/train_test_split.py
+</pre></div>
+</div>
+</section>
+<section id="example-complete-analysis-pipeline">
+<h2>Example: Complete Analysis Pipeline<a class="headerlink" href="#example-complete-analysis-pipeline" title="Link to this heading"></a></h2>
+<p>Here’s a complete example analyzing a dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.apply_thresholds</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_threshold_recursively</span><span class="p">,</span> <span class="n">apply_li_threshold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.cell_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_regionprops_recursively</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">organize_files_without_leakage</span>
+
+<span class="c1"># 1. Organize data</span>
+<span class="n">organize_files_without_leakage</span><span class="p">(</span>
+    <span class="n">base_dir</span><span class="o">=</span><span class="s2">&quot;raw_data/&quot;</span><span class="p">,</span>
+    <span class="n">train_dir</span><span class="o">=</span><span class="s2">&quot;training/&quot;</span><span class="p">,</span>
+    <span class="n">test_dir</span><span class="o">=</span><span class="s2">&quot;testing/&quot;</span><span class="p">,</span>
+    <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;treatment&quot;</span><span class="p">],</span>
+    <span class="n">treatment_conditions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;drug_A&quot;</span><span class="p">,</span> <span class="s2">&quot;drug_B&quot;</span><span class="p">],</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. Apply thresholding</span>
+<span class="n">apply_threshold_recursively</span><span class="p">(</span>
+    <span class="n">input_folder</span><span class="o">=</span><span class="s2">&quot;training/&quot;</span><span class="p">,</span>
+    <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;training_masks/&quot;</span><span class="p">,</span>
+    <span class="n">threshold_function</span><span class="o">=</span><span class="n">apply_li_threshold</span>
+<span class="p">)</span>
+
+<span class="c1"># 3. Extract properties</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter&#39;</span><span class="p">,</span> <span class="s1">&#39;eccentricity&#39;</span><span class="p">,</span> <span class="s1">&#39;solidity&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">apply_regionprops_recursively</span><span class="p">(</span><span class="s2">&quot;training_masks/&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+<span class="c1"># 4. Calculate derived metrics</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;circularity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;area&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perimeter&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># 5. Save results</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;morphology_analysis.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Analyzed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> cells across conditions&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;treatment&#39;</span><span class="p">)[</span><span class="s1">&#39;area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="what-s-next">
+<h2>What’s Next?<a class="headerlink" href="#what-s-next" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Check out the <span class="xref std std-doc">tutorials/index</span> for detailed examples</p></li>
+<li><p>Read the <a class="reference internal" href="api/modules.html"><span class="doc">API Reference</span></a> for complete function documentation</p></li>
+<li><p>See example datasets in the <code class="docutils literal notranslate"><span class="pre">example_dataset/</span></code> directory</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

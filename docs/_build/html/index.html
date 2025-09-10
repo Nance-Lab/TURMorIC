@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TURMorIC documentation &mdash; TURMorIC 0.0.1 documentation</title>
+  <title>TURMorIC: Turmeric-enhanced Unsupervised Recognition of Microglia Image Characteristics &mdash; TURMorIC 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="turmoric package" href="turmoric.html" /> 
+    <link rel="next" title="Installation" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,9 +41,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="turmoric.html">turmoric package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -60,7 +74,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">TURMorIC documentation</li>
+      <li class="breadcrumb-item active">TURMorIC: Turmeric-enhanced Unsupervised Recognition of Microglia Image Characteristics</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -70,40 +84,231 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="turmoric-documentation">
-<h1>TURMorIC documentation<a class="headerlink" href="#turmoric-documentation" title="Link to this heading"></a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
+  <section id="turmoric-turmeric-enhanced-unsupervised-recognition-of-microglia-image-characteristics">
+<h1>TURMorIC: Turmeric-enhanced Unsupervised Recognition of Microglia Image Characteristics<a class="headerlink" href="#turmoric-turmeric-enhanced-unsupervised-recognition-of-microglia-image-characteristics" title="Link to this heading"></a></h1>
+<a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/python-3.9%2B-blue" />
+</a>
+<a class="reference external image-reference" href="https://github.com/Nance-Lab/TURMorIC/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green" />
+</a>
+<p>TURMorIC is a Python package for automated analysis of brain slice images, specifically designed for microglia morphology quantification. Built upon the VAMPIRE (Visually Aided Morpho-Phenotyping Image Recognition) framework, TURMorIC provides a streamlined pipeline for researchers to analyze brain tissue images with minimal manual intervention.</p>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Automated Image Processing</strong>: Convert ND2 microscopy files to standard formats</p></li>
+<li><p><strong>Advanced Thresholding</strong>: Multiple thresholding algorithms (Li, Otsu, Mean, etc.)</p></li>
+<li><p><strong>Morphological Analysis</strong>: Extract detailed cellular properties using regionprops</p></li>
+<li><p><strong>VAMPIRE Integration</strong>: Train and apply VAMPIRE models for morphology classification</p></li>
+<li><p><strong>Batch Processing</strong>: Handle large datasets efficiently</p></li>
+<li><p><strong>Reproducible Workflows</strong>: Prevent data leakage with proper train/test splitting</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Nance-Lab/TURMorIC.git
+<span class="nb">cd</span><span class="w"> </span>TURMorIC
+
+<span class="c1"># Create and activate conda environment</span>
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+conda<span class="w"> </span>activate<span class="w"> </span>turmoric
+
+<span class="c1"># Install the package</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.apply_thresholds</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_li_threshold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.cell_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_regionprops</span>
+
+<span class="c1"># Apply Li thresholding to an image</span>
+<span class="n">binary_mask</span> <span class="o">=</span> <span class="n">apply_li_threshold</span><span class="p">(</span><span class="s2">&quot;path/to/image.tif&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Extract morphological properties</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">apply_regionprops</span><span class="p">(</span><span class="s2">&quot;path/to/mask.npy&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="s2">&quot;perimeter&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>🔍 <strong>Looking for specific functions?</strong> → <a class="reference internal" href="api/function_index.html"><span class="doc">Function Index</span></a></p>
+</section>
+</section>
+<section id="documentation-contents">
+<h2>Documentation Contents<a class="headerlink" href="#documentation-contents" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="turmoric.html">turmoric package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.apply_thresholds">turmoric.apply_thresholds module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.cell_analysis">turmoric.cell_analysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.image_process">turmoric.image_process module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.main">turmoric.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.utils">turmoric.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric.vampire_model">turmoric.vampire_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="turmoric.html#module-turmoric">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation-methods">Installation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#common-issues">Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#basic-workflow">Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#command-line-usage">Command Line Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#example-complete-analysis-pipeline">Example: Complete Analysis Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#what-s-next">What’s Next?</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="most-used-functions">
+<h2>Most Used Functions<a class="headerlink" href="#most-used-functions" title="Link to this heading"></a></h2>
+<p>New users typically start with these functions:</p>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
+</section>
+</section>
+<section id="if-you-use-turmoric-in-your-research-pleaseturmoric-turmeric-enhanced-unsupervised-recognition-of-microglia-image-characteristics">
+<h1>If you use TURMorIC in your research, pleaseTURMorIC: Turmeric-enhanced Unsupervised Recognition of Microglia Image Characteristics<a class="headerlink" href="#if-you-use-turmoric-in-your-research-pleaseturmoric-turmeric-enhanced-unsupervised-recognition-of-microglia-image-characteristics" title="Link to this heading"></a></h1>
+<a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/python-3.9%2B-blue" />
+</a>
+<a class="reference external image-reference" href="https://github.com/Nance-Lab/TURMorIC/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green" />
+</a>
+<p>TURMorIC is a Python package for automated analysis of brain slice images, specifically designed for microglia morphology quantification. Built upon the VAMPIRE (Visually Aided Morpho-Phenotyping Image Recognition) framework, TURMorIC provides a streamlined pipeline for researchers to analyze brain tissue images with minimal manual intervention.</p>
+<section id="id1">
+<h2>Key Features<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Automated Image Processing</strong>: Convert ND2 microscopy files to standard formats</p></li>
+<li><p><strong>Advanced Thresholding</strong>: Multiple thresholding algorithms (Li, Otsu, Mean, etc.)</p></li>
+<li><p><strong>Morphological Analysis</strong>: Extract detailed cellular properties using regionprops</p></li>
+<li><p><strong>VAMPIRE Integration</strong>: Train and apply VAMPIRE models for morphology classification</p></li>
+<li><p><strong>Batch Processing</strong>: Handle large datasets efficiently</p></li>
+<li><p><strong>Reproducible Workflows</strong>: Prevent data leakage with proper train/test splitting</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>Quick Start<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>Installation<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Nance-Lab/TURMorIC.git
+<span class="nb">cd</span><span class="w"> </span>TURMorIC
+
+<span class="c1"># Create and activate conda environment</span>
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+conda<span class="w"> </span>activate<span class="w"> </span>turmoric
+
+<span class="c1"># Install the package</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Basic Usage<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.apply_thresholds</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_li_threshold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turmoric.cell_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_regionprops</span>
+
+<span class="c1"># Apply Li thresholding to an image</span>
+<span class="n">binary_mask</span> <span class="o">=</span> <span class="n">apply_li_threshold</span><span class="p">(</span><span class="s2">&quot;path/to/image.tif&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Extract morphological properties</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">apply_regionprops</span><span class="p">(</span><span class="s2">&quot;path/to/mask.npy&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="s2">&quot;perimeter&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Documentation Contents<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation-methods">Installation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#common-issues">Common Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#basic-workflow">Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#command-line-usage">Command Line Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#example-complete-analysis-pipeline">Example: Complete Analysis Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id6">
+<h2>Citation<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>If you use TURMorIC in your research, please cite:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@software</span><span class="p">{</span><span class="nl">turmoric2025</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{TURMorIC: Turmeric-enhanced Unsupervised Recognition of Microglia Image Characteristics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Schimek, Nels and Phommatha, Krista and Landis, Colin and Yase, Muna and Wood, Heather and Mayta, Sergi}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="p">=</span><span class="s">{https://github.com/Nance-Lab/TURMorIC}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And the original VAMPIRE method:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">phillip2021robust</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{A robust unsupervised machine-learning method to quantify the morphological heterogeneity of cells and nuclei}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Phillip, Jude M and Han, Kyu-Sang and Chen, Wei-Chiang and Wirtz, Denis and Wu, Pei-Hsun}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{Nature protocols}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{16}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{754--774}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2021}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">publisher</span><span class="p">=</span><span class="s">{Nature Publishing Group}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="turmoric.html" class="btn btn-neutral float-right" title="turmoric package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis.</p>
+    <p>&#169; Copyright 2025, Nels Schimek, Colin Landis, Krista Phommatha, Muna Yase, Heather Wood, Sergi Mayta.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
