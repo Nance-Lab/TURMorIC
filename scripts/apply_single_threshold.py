@@ -32,7 +32,8 @@ def create_microglia_mask(image, threshold_method=filters.threshold_li):
                                                 path_type=Path))
 @click.argument('output_folder', type=click.Path(exists=False, path_type=Path))
 @click.option("-s", "--size", type=click.INT, default=71)
-def apply_li_threshold(input_folder, output_folder, size=71):
+@click.option("-c", "--channel", type=click.INT, default=1)
+def apply_li_threshold(input_folder, output_folder, channel, size):
     """
     Applies Li thresholding to all .tif images in the input folder
     (and subfolders)
@@ -72,7 +73,14 @@ def apply_li_threshold(input_folder, output_folder, size=71):
                     img = io.imread(input_path)
 
                     # Assume the second channel is the microglia channel
-                    microglia_im = img[:, :, 1] if img.ndim == 3 else img
+                    # if img.ndim == 3:
+                    #     microglia_im = img[:, :, 1]
+                    # elif img.ndim == 2:
+                    #     microglia_im = img[1, :, :]
+                    # else:
+                    #     microglia_im = img
+
+                    microglia_im = img[1, :, :]
 
                     # Apply Li threshold
 

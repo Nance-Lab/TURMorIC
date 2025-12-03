@@ -5,13 +5,13 @@ from collections import defaultdict
 from sklearn.model_selection import train_test_split
 
 # Define your base directory and target directories for training and testing
-base_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs"
-train_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs/training"
-test_dir = "/Users/nelsschimek/Documents/nancelab/Data/tommy_data/li_thresh/converted_tiffs/testing"
+base_dir = "/Users/nelsschimek/Documents/nancelab/Data/gaby_data/tifs/li_thresh"
+train_dir = "/Users/nelsschimek/Documents/nancelab/Data/gaby_data/tifs/li_thresh/training"
+test_dir = "/Users/nelsschimek/Documents/nancelab/Data/gaby_data/tifs/li_thresh/testing"
 
 # Define a list of subfolder names or patterns to look for
-treatment_conditions = ["Left_HC", "Right_HC"]
-groups = ["Blast_45_angle_5", "Blast_45_angle_6", "Blast_prone_7", "Blast_prone_8", "Blast_prone_9", "Sham_3"]
+treatment_conditions = ["Acet", "Amin", "HC", "Meth", "Opt"]
+groups = ["converted_tiffs"]
 
 # Create training and testing directories if they don't exist
 os.makedirs(train_dir, exist_ok=True)
@@ -45,7 +45,7 @@ def organize_files_without_leakage(base_dir, train_dir, test_dir, test_size=0.2)
             # split_index = int(len(slice_ids) * (1 - test_size))
             # train_slices = slice_ids[:split_index]
             # test_slices = slice_ids[split_index:]
-
+            print(condition_path)
             files = os.listdir(condition_path)
             train_slices, test_slices = train_test_split(files, test_size=test_size)
             
