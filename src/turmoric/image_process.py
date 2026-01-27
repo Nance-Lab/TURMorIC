@@ -182,3 +182,12 @@ def nd2_to_tif(path: str, file_name: str) -> None:
  
 def load_tif_file():
     pass
+
+def z_project(img):
+    """_summary_
+
+    Args:
+        img (_type_): _description_
+    """
+
+    

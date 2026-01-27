@@ -24,6 +24,10 @@ def split_files(input_folder, output_folder):
     # Walk through all files and subfolders
     for root, _, files in os.walk(input_folder):
         for file in files:
+
+            if file.startswith('._'):
+                continue
+            
             if file.endswith(".npy"):
                 # Full input path
                 input_path = os.path.join(root, file)
@@ -40,7 +44,7 @@ def split_files(input_folder, output_folder):
                 output_path_4 = os.path.join(output_subfolder, file.replace(".npy", "_quad4.npy"))
 
                 try:
-                    file_to_split = np.load(input_path)
+                    file_to_split = np.load(input_path, allow_pickle=True)
                     quada, quadb = np.array_split(file_to_split, 2)
                     quad1, quad2 = np.array_split(quada, 2, axis=1)
                     quad3, quad4 = np.array_split(quadb, 2, axis=1)
