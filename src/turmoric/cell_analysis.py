@@ -48,43 +48,43 @@ def apply_regionprops(file: str, properties_list: list) -> pd.DataFrame:
     # Load the binary mask
     binary_mask = np.load(file, allow_pickle=True)
 
-    # Get dimensions
-    height, width = binary_mask.shape
-    mid_h = height // 2
-    mid_w = width // 2
+    # # Get dimensions
+    # height, width = binary_mask.shape
+    # mid_h = height // 2
+    # mid_w = width // 2
 
-    # Split into 4 quadrants
-    quadrants = {
-        'quad1': binary_mask[0:mid_h, 0:mid_w],           # Top-left
-        'quad2': binary_mask[0:mid_h, mid_w:width],       # Top-right
-        'quad3': binary_mask[mid_h:height, 0:mid_w],      # Bottom-left
-        'quad4': binary_mask[mid_h:height, mid_w:width]   # Bottom-right
-    }
+    # # Split into 4 quadrants
+    # quadrants = {
+    #     'quad1': binary_mask[0:mid_h, 0:mid_w],           # Top-left
+    #     'quad2': binary_mask[0:mid_h, mid_w:width],       # Top-right
+    #     'quad3': binary_mask[mid_h:height, 0:mid_w],      # Bottom-left
+    #     'quad4': binary_mask[mid_h:height, mid_w:width]   # Bottom-right
+    # }
 
     # Collect properties from all quadrants
-    all_props_dfs = []
+    #all_props_dfs = []
 
-    for quad_name, quad_mask in quadrants.items():
+    #for quad_name, quad_mask in quadrants.items():
         # Clear objects touching the border of this quadrant
-        quad_mask = clear_border(quad_mask)
+     #   quad_mask = clear_border(quad_mask)
         
         # Label connected regions in this quadrant
-        label_image = label(quad_mask)
+    label_image = label(binary_mask)
         
         # Measure properties
-        props = regionprops_table(label_image, properties=properties_list)
+    props = regionprops_table(label_image, properties=properties_list)
         
         # Create DataFrame for this quadrant
-        props_df = pd.DataFrame(props)
-        props_df['filename'] = file
-        props_df['quadrant'] = quad_name
+    props_df = pd.DataFrame(props)
+    props_df['filename'] = file
+       # props_df['quadrant'] = quad_name
         
-        all_props_dfs.append(props_df)
+   # all_props_dfs.append(props_df)
 
     # Combine all quadrants into one DataFrame
-    combined_props_df = pd.concat(all_props_dfs, ignore_index=True)
+    #combined_props_df = pd.concat(props_dfs, ignore_index=True)
 
-    return combined_props_df
+    return props_df
 
 
 def apply_regionprops_recursively(input_folder: str, properties_list: tuple=(
