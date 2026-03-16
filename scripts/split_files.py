@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from numpy.linalg import inv
 from sklearn.model_selection import train_test_split
 from skimage.segmentation import clear_border
+import tifffile
 
 def split_files(input_folder, output_folder):
     """
@@ -28,7 +29,7 @@ def split_files(input_folder, output_folder):
             if file.startswith('._'):
                 continue
             
-            if file.endswith(".npy"):
+            if file.endswith(".tif"):
                 # Full input path
                 input_path = os.path.join(root, file)
 
@@ -38,27 +39,26 @@ def split_files(input_folder, output_folder):
                 os.makedirs(output_subfolder, exist_ok=True)
 
                 # Full output path
-                output_path_1 = os.path.join(output_subfolder, file.replace(".npy", "_quad1.npy"))
-                output_path_2 = os.path.join(output_subfolder, file.replace(".npy", "_quad2.npy"))
-                output_path_3 = os.path.join(output_subfolder, file.replace(".npy", "_quad3.npy"))
-                output_path_4 = os.path.join(output_subfolder, file.replace(".npy", "_quad4.npy"))
+                output_path_1 = os.path.join(output_subfolder, file.replace(".tif", "_quad1.tif"))
+                output_path_2 = os.path.join(output_subfolder, file.replace(".tif", "_quad2.tif"))
+                output_path_3 = os.path.join(output_subfolder, file.replace(".tif", "_quad3.tif"))
+                output_path_4 = os.path.join(output_subfolder, file.replace(".tif", "_quad4.tif"))
 
                 try:
-                    file_to_split = np.load(input_path, allow_pickle=True)
+                    file_to_split = tifffile.imread(input_path)
                     quada, quadb = np.array_split(file_to_split, 2)
                     quad1, quad2 = np.array_split(quada, 2, axis=1)
                     quad3, quad4 = np.array_split(quadb, 2, axis=1)
-                    
+
                     quad1 = clear_border(quad1)
                     quad2 = clear_border(quad2)
                     quad3 = clear_border(quad3)
                     quad4 = clear_border(quad4)
 
-                    
-                    np.save(output_path_1, quad1)
-                    np.save(output_path_2, quad2)
-                    np.save(output_path_3, quad3)
-                    np.save(output_path_4, quad4)
+                    tifffile.imwrite(output_path_1, quad1)
+                    tifffile.imwrite(output_path_2, quad2)
+                    tifffile.imwrite(output_path_3, quad3)
+                    tifffile.imwrite(output_path_4, quad4)
                 
                 except Exception as e:
                     print(f"Error processing {input_path}: {e}")

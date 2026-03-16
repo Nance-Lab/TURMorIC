@@ -195,39 +195,471 @@ def split_images_into_kfolds(
             train_conditions = conditions[train_idx]
             val_conditions = conditions[val_idx]
             train_dist = Counter(train_conditions)
-            val_dist = Counter(val_conditions)
 
-            logger.info(
-                f"Fold {fold_idx + 1}/{n_folds}: "
-                f"{len(train_files)} train, {len(val_files)} val files"
-            )
-            logger.debug(f"  Train distribution: {dict(train_dist)}")
-            logger.debug(f"  Val distribution: {dict(val_dist)}")
+# def split_images_into_kfolds_balanced(
+#     data_path: str,
+#     n_folds: int = 5,
+#     file_extension: str = '.tif',
+#     random_state: int = 42,
+#     condition_extractor: Optional[Callable[[str], str]] = None,
+#     samples_per_condition: Optional[int] = None
+# ) -> Tuple[List[Tuple[List[str], List[str]]], Dict[str, int]]:
+#     """
+#     Split images into K folds with EXACTLY equal samples per condition in each fold.
+    
+#     This function ensures perfectly balanced representation of experimental conditions
+#     across folds by potentially excluding some samples. This is important when you
+#     want the same number of images per species/condition in each fold for fair
+#     comparison and training.
+    
+#     Parameters
+#     ----------
+#     data_path : str
+#         Path to directory containing image files (searched recursively)
+#     n_folds : int, optional
+#         Number of folds for cross-validation (default: 5)
+#     file_extension : str, optional
+#         File extension to search for (e.g., '.tif', '.npy') (default: '.tif')
+#     random_state : int, optional
+#         Random seed for reproducibility (default: 42)
+#     condition_extractor : Callable[[str], str], optional
+#         Function to extract condition label from file path. If None, uses
+#         extract_condition_from_path which assumes structure: .../group/condition/file.ext
+#     samples_per_condition : int, optional
+#         Number of samples to use per condition. If None, automatically determined
+#         as (min_samples_per_condition // n_folds) * n_folds to maximize data usage
+#         while maintaining balance.
+        
+#     Returns
+#     -------
+#     fold_splits : List[Tuple[List[str], List[str]]]
+#         List of (train_files, val_files) tuples for each fold
+#     usage_stats : Dict[str, int]
+#         Dictionary with statistics about data usage:
+#         - 'total_files': total files found
+#         - 'files_used': files included in folds
+#         - 'files_excluded': files excluded for balance
+#         - 'samples_per_condition_per_fold': samples of each condition per fold
+        
+#     Raises
+#     ------
+#     ValueError
+#         If any condition has fewer samples than n_folds, or if no valid split is possible
+        
+#     Examples
+#     --------
+#     >>> # Automatic balancing (uses maximum possible samples)
+#     >>> fold_splits, stats = split_images_into_kfolds_balanced(
+#     ...     '/data/images',
+#     ...     n_folds=5
+#     ... )
+#     >>> print(f"Using {stats['files_used']}/{stats['total_files']} files")
+#     >>> print(f"{stats['samples_per_condition_per_fold']} samples per condition per fold")
+    
+#     >>> # Manual specification (use exactly 20 samples per condition)
+#     >>> fold_splits, stats = split_images_into_kfolds_balanced(
+#     ...     '/data/images',
+#     ...     n_folds=5,
+#     ...     samples_per_condition=100  # 20 per fold × 5 folds
+#     ... )
+    
+#     Notes
+#     -----
+#     - Files are sampled randomly within each condition
+#     - Each condition contributes equally to each fold
+#     - Some data may be excluded to achieve perfect balance
+#     - The split is deterministic given the random_state
+#     """
+#     from sklearn.model_selection import StratifiedKFold
+#     from collections import Counter
+    
+#     # Validate data path
+#     data_path = Path(data_path)
+#     if not data_path.exists():
+#         raise FileNotFoundError(f"Data path does not exist: {data_path}")
+    
+#     # Get all image files
+#     logger.info(f"Searching for {file_extension} files in {data_path}")
+#     image_files = recursively_get_all_filepaths(str(data_path), file_extension)
+    
+#     if len(image_files) == 0:
+#         raise ValueError(f"No files with extension {file_extension} found in {data_path}")
+    
+#     logger.info(f"Found {len(image_files)} total files")
+    
+#     # Extract conditions from file paths
+#     if condition_extractor is None:
+#         condition_extractor = extract_condition_from_path
+    
+#     logger.info("Extracting experimental conditions from file paths...")
+#     conditions = np.array([condition_extractor(f) for f in image_files])
+#     image_array = np.array(image_files)
+    
+#     # Count samples per condition
+#     condition_counts = Counter(conditions)
+#     logger.info(f"Found {len(condition_counts)} unique conditions:")
+#     for condition, count in sorted(condition_counts.items()):
+#         logger.info(f"  {condition}: {count} files")
+    
+#     # Check minimum samples
+#     min_samples = min(condition_counts.values())
+#     if min_samples < n_folds:
+#         raise ValueError(
+#             f"Minimum samples per condition ({min_samples}) is less than n_folds ({n_folds}). "
+#             f"Need at least {n_folds} samples per condition for balanced splitting."
+#         )
+    
+#     # Determine samples to use per condition
+#     if samples_per_condition is None:
+#         # Use maximum number that divides evenly by n_folds
+#         samples_per_fold = min_samples // n_folds
+#         samples_per_condition = samples_per_fold * n_folds
+#         logger.info(
+#             f"Auto-determined: using {samples_per_condition} samples per condition "
+#             f"({samples_per_fold} per fold)"
+#         )
+#     else:
+#         samples_per_fold = samples_per_condition // n_folds
+#         if samples_per_condition % n_folds != 0:
+#             raise ValueError(
+#                 f"samples_per_condition ({samples_per_condition}) must be divisible by "
+#                 f"n_folds ({n_folds})"
+#             )
+        
+#         # Check if we have enough samples
+#         if min_samples < samples_per_condition:
+#             raise ValueError(
+#                 f"Requested {samples_per_condition} samples per condition, but "
+#                 f"minimum available is {min_samples}"
+#             )
+        
+#         logger.info(f"Using {samples_per_condition} samples per condition ({samples_per_fold} per fold)")
+    
+#     # Balance and sample from each condition
+#     balanced_files = []
+#     balanced_conditions = []
+    
+#     np.random.seed(random_state)
+    
+#     for condition in sorted(condition_counts.keys()):
+#         # Get all files for this condition
+#         condition_mask = conditions == condition
+#         condition_files = image_array[condition_mask]
+        
+#         # Randomly sample exactly samples_per_condition files
+#         sampled_indices = np.random.choice(
+#             len(condition_files),
+#             size=samples_per_condition,
+#             replace=False
+#         )
+#         sampled_files = condition_files[sampled_indices]
+        
+#         balanced_files.extend(sampled_files)
+#         balanced_conditions.extend([condition] * samples_per_condition)
+        
+#         logger.info(
+#             f"  {condition}: sampled {samples_per_condition} from {len(condition_files)} "
+#             f"(excluded {len(condition_files) - samples_per_condition})"
+#         )
+    
+#     balanced_files = np.array(balanced_files)
+#     balanced_conditions = np.array(balanced_conditions)
+    
+#     # Create stratified k-fold splits
+#     logger.info(f"Creating {n_folds} balanced stratified folds...")
+#     skfold = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=random_state)
+    
+#     fold_splits = []
+#     for fold_idx, (train_idx, val_idx) in enumerate(skfold.split(balanced_files, balanced_conditions)):
+#         train_files = balanced_files[train_idx].tolist()
+#         val_files = balanced_files[val_idx].tolist()
+        
+#         # Verify balance in validation set
+#         val_conditions = balanced_conditions[val_idx]
+#         val_condition_counts = Counter(val_conditions)
+        
+#         logger.info(
+#             f"Fold {fold_idx + 1}/{n_folds}: "
+#             f"{len(train_files)} train, {len(val_files)} val files"
+#         )
+#         logger.debug(f"  Val distribution: {dict(val_condition_counts)}")
+        
+#         fold_splits.append((train_files, val_files))
+    
+#     # Calculate usage statistics
+#     total_files = len(image_files)
+#     files_used = len(balanced_files)
+#     files_excluded = total_files - files_used
+    
+#     usage_stats = {
+#         'total_files': total_files,
+#         'files_used': files_used,
+#         'files_excluded': files_excluded,
+#         'samples_per_condition_per_fold': samples_per_fold,
+#         'conditions': len(condition_counts),
+#         'samples_per_condition_total': samples_per_condition
+#     }
+    
+#     logger.info(f"\n{'='*60}")
+#     logger.info("Data Usage Summary:")
+#     logger.info(f"  Total files found: {total_files}")
+#     logger.info(f"  Files used: {files_used} ({files_used/total_files*100:.1f}%)")
+#     logger.info(f"  Files excluded: {files_excluded} ({files_excluded/total_files*100:.1f}%)")
+#     logger.info(f"  Conditions: {len(condition_counts)}")
+#     logger.info(f"  Samples per condition per fold: {samples_per_fold}")
+#     logger.info(f"  Total samples per condition: {samples_per_condition}")
+#     logger.info(f"{'='*60}")
+    
+#     return fold_splits, usage_stats
+#             val_dist = Counter(val_conditions)
 
-            fold_splits.append((train_files, val_files))
+#             logger.info(
+#                 f"Fold {fold_idx + 1}/{n_folds}: "
+#                 f"{len(train_files)} train, {len(val_files)} val files"
+#             )
+#             logger.debug(f"  Train distribution: {dict(train_dist)}")
+#             logger.debug(f"  Val distribution: {dict(val_dist)}")
 
-    else:
-        # Create regular k-fold splits (no stratification)
-        logger.info(
-            f"Creating {n_folds} non-stratified folds with random_state={random_state}"
+#             fold_splits.append((train_files, val_files))
+
+#     else:
+#         # Create regular k-fold splits (no stratification)
+#         logger.info(
+#             f"Creating {n_folds} non-stratified folds with random_state={random_state}"
+#         )
+
+#         kfold = KFold(n_splits=n_folds, shuffle=True, random_state=random_state)
+
+#         fold_splits = []
+#         for fold_idx, (train_idx, val_idx) in enumerate(kfold.split(image_array)):
+#             train_files = image_array[train_idx].tolist()
+#             val_files = image_array[val_idx].tolist()
+
+#             logger.info(
+#                 f"Fold {fold_idx + 1}/{n_folds}: "
+#                 f"{len(train_files)} train files, {len(val_files)} val files"
+#             )
+
+#             fold_splits.append((train_files, val_files))
+
+#     logger.info(f"Successfully created {n_folds} folds")
+#     return fold_splits
+
+def split_images_into_kfolds_balanced(
+    data_path: str,
+    n_folds: int = 5,
+    file_extension: str = '.tif',
+    random_state: int = 42,
+    condition_extractor: Optional[Callable[[str], str]] = None,
+    samples_per_condition: Optional[int] = None
+) -> Tuple[List[Tuple[List[str], List[str]]], Dict[str, int]]:
+    """
+    Split images into K folds with EXACTLY equal samples per condition in each fold.
+    
+    This function ensures perfectly balanced representation of experimental conditions
+    across folds by potentially excluding some samples. This is important when you
+    want the same number of images per species/condition in each fold for fair
+    comparison and training.
+    
+    Parameters
+    ----------
+    data_path : str
+        Path to directory containing image files (searched recursively)
+    n_folds : int, optional
+        Number of folds for cross-validation (default: 5)
+    file_extension : str, optional
+        File extension to search for (e.g., '.tif', '.npy') (default: '.tif')
+    random_state : int, optional
+        Random seed for reproducibility (default: 42)
+    condition_extractor : Callable[[str], str], optional
+        Function to extract condition label from file path. If None, uses
+        extract_condition_from_path which assumes structure: .../group/condition/file.ext
+    samples_per_condition : int, optional
+        Number of samples to use per condition. If None, automatically determined
+        as (min_samples_per_condition // n_folds) * n_folds to maximize data usage
+        while maintaining balance.
+        
+    Returns
+    -------
+    fold_splits : List[Tuple[List[str], List[str]]]
+        List of (train_files, val_files) tuples for each fold
+    usage_stats : Dict[str, int]
+        Dictionary with statistics about data usage:
+        - 'total_files': total files found
+        - 'files_used': files included in folds
+        - 'files_excluded': files excluded for balance
+        - 'samples_per_condition_per_fold': samples of each condition per fold
+        
+    Raises
+    ------
+    ValueError
+        If any condition has fewer samples than n_folds, or if no valid split is possible
+        
+    Examples
+    --------
+    >>> # Automatic balancing (uses maximum possible samples)
+    >>> fold_splits, stats = split_images_into_kfolds_balanced(
+    ...     '/data/images',
+    ...     n_folds=5
+    ... )
+    >>> print(f"Using {stats['files_used']}/{stats['total_files']} files")
+    >>> print(f"{stats['samples_per_condition_per_fold']} samples per condition per fold")
+    
+    >>> # Manual specification (use exactly 20 samples per condition)
+    >>> fold_splits, stats = split_images_into_kfolds_balanced(
+    ...     '/data/images',
+    ...     n_folds=5,
+    ...     samples_per_condition=100  # 20 per fold × 5 folds
+    ... )
+    
+    Notes
+    -----
+    - Files are sampled randomly within each condition
+    - Each condition contributes equally to each fold
+    - Some data may be excluded to achieve perfect balance
+    - The split is deterministic given the random_state
+    """
+    from sklearn.model_selection import StratifiedKFold
+    from collections import Counter
+    
+    # Validate data path
+    data_path = Path(data_path)
+    if not data_path.exists():
+        raise FileNotFoundError(f"Data path does not exist: {data_path}")
+    
+    # Get all image files
+    logger.info(f"Searching for {file_extension} files in {data_path}")
+    image_files = recursively_get_all_filepaths(str(data_path), file_extension)
+    
+    if len(image_files) == 0:
+        raise ValueError(f"No files with extension {file_extension} found in {data_path}")
+    
+    logger.info(f"Found {len(image_files)} total files")
+    
+    # Extract conditions from file paths
+    if condition_extractor is None:
+        condition_extractor = extract_condition_from_path
+    
+    logger.info("Extracting experimental conditions from file paths...")
+    conditions = np.array([condition_extractor(f) for f in image_files])
+    image_array = np.array(image_files)
+    
+    # Count samples per condition
+    condition_counts = Counter(conditions)
+    logger.info(f"Found {len(condition_counts)} unique conditions:")
+    for condition, count in sorted(condition_counts.items()):
+        logger.info(f"  {condition}: {count} files")
+    
+    # Check minimum samples
+    min_samples = min(condition_counts.values())
+    if min_samples < n_folds:
+        raise ValueError(
+            f"Minimum samples per condition ({min_samples}) is less than n_folds ({n_folds}). "
+            f"Need at least {n_folds} samples per condition for balanced splitting."
         )
-
-        kfold = KFold(n_splits=n_folds, shuffle=True, random_state=random_state)
-
-        fold_splits = []
-        for fold_idx, (train_idx, val_idx) in enumerate(kfold.split(image_array)):
-            train_files = image_array[train_idx].tolist()
-            val_files = image_array[val_idx].tolist()
-
-            logger.info(
-                f"Fold {fold_idx + 1}/{n_folds}: "
-                f"{len(train_files)} train files, {len(val_files)} val files"
+    
+    # Determine samples to use per condition
+    if samples_per_condition is None:
+        # Use maximum number that divides evenly by n_folds
+        samples_per_fold = min_samples // n_folds
+        samples_per_condition = samples_per_fold * n_folds
+        logger.info(
+            f"Auto-determined: using {samples_per_condition} samples per condition "
+            f"({samples_per_fold} per fold)"
+        )
+    else:
+        samples_per_fold = samples_per_condition // n_folds
+        if samples_per_condition % n_folds != 0:
+            raise ValueError(
+                f"samples_per_condition ({samples_per_condition}) must be divisible by "
+                f"n_folds ({n_folds})"
             )
-
-            fold_splits.append((train_files, val_files))
-
-    logger.info(f"Successfully created {n_folds} folds")
-    return fold_splits
+        
+        # Check if we have enough samples
+        if min_samples < samples_per_condition:
+            raise ValueError(
+                f"Requested {samples_per_condition} samples per condition, but "
+                f"minimum available is {min_samples}"
+            )
+        
+        logger.info(f"Using {samples_per_condition} samples per condition ({samples_per_fold} per fold)")
+    
+    # Balance and sample from each condition
+    balanced_files = []
+    balanced_conditions = []
+    
+    np.random.seed(random_state)
+    
+    for condition in sorted(condition_counts.keys()):
+        # Get all files for this condition
+        condition_mask = conditions == condition
+        condition_files = image_array[condition_mask]
+        
+        # Randomly sample exactly samples_per_condition files
+        sampled_indices = np.random.choice(
+            len(condition_files),
+            size=samples_per_condition,
+            replace=False
+        )
+        sampled_files = condition_files[sampled_indices]
+        
+        balanced_files.extend(sampled_files)
+        balanced_conditions.extend([condition] * samples_per_condition)
+        
+        logger.info(
+            f"  {condition}: sampled {samples_per_condition} from {len(condition_files)} "
+            f"(excluded {len(condition_files) - samples_per_condition})"
+        )
+    
+    balanced_files = np.array(balanced_files)
+    balanced_conditions = np.array(balanced_conditions)
+    
+    # Create stratified k-fold splits
+    logger.info(f"Creating {n_folds} balanced stratified folds...")
+    skfold = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=random_state)
+    
+    fold_splits = []
+    for fold_idx, (train_idx, val_idx) in enumerate(skfold.split(balanced_files, balanced_conditions)):
+        train_files = balanced_files[train_idx].tolist()
+        val_files = balanced_files[val_idx].tolist()
+        
+        # Verify balance in validation set
+        val_conditions = balanced_conditions[val_idx]
+        val_condition_counts = Counter(val_conditions)
+        
+        logger.info(
+            f"Fold {fold_idx + 1}/{n_folds}: "
+            f"{len(train_files)} train, {len(val_files)} val files"
+        )
+        logger.debug(f"  Val distribution: {dict(val_condition_counts)}")
+        
+        fold_splits.append((train_files, val_files))
+    
+    # Calculate usage statistics
+    total_files = len(image_files)
+    files_used = len(balanced_files)
+    files_excluded = total_files - files_used
+    
+    usage_stats = {
+        'total_files': total_files,
+        'files_used': files_used,
+        'files_excluded': files_excluded,
+        'samples_per_condition_per_fold': samples_per_fold,
+        'conditions': len(condition_counts),
+        'samples_per_condition_total': samples_per_condition
+    }
+    
+    logger.info(f"\n{'='*60}")
+    logger.info("Data Usage Summary:")
+    logger.info(f"  Total files found: {total_files}")
+    logger.info(f"  Files used: {files_used} ({files_used/total_files*100:.1f}%)")
+    logger.info(f"  Files excluded: {files_excluded} ({files_excluded/total_files*100:.1f}%)")
+    logger.info(f"  Conditions: {len(condition_counts)}")
+    logger.info(f"  Samples per condition per fold: {samples_per_fold}")
+    logger.info(f"  Total samples per condition: {samples_per_condition}")
+    logger.info(f"{'='*60}")
+    
+    return fold_splits, usage_stats
 
 
 def train_and_predict_vampire(
@@ -1037,24 +1469,28 @@ def compute_shape_consistency_metrics(
 if __name__ == "__main__":
 
     data_path = (
-        "/Users/nelsschimek/Documents/nancelab/Data/gaby_data/tifs/converted_tiffs"
+        "/mmfs1/gscratch/cheme/nlsschim/data/cross_species/tifs/specific_studies/adult_wm_gm/"
     )
 
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
-    trainer = vampire_model.VampireModelTrainer(
-        base_path=data_path,
-        groups=["converted_tiffs"],
-        treatments=["Acet", "Amin", "HC", "Meth"],
+    # trainer = vampire_model.VampireModelTrainer(
+    #     base_path=data_path,
+    #     groups=["converted_tiffs"],
+    #     treatments=["Acet", "Amin", "HC", "Meth"],
+    # )
+
+    fold_splits, usage_stats = split_images_into_kfolds_balanced(  # ← Changed this line
+        data_path=data_path,
+        n_folds=5,
+        file_extension='.tif',
+        random_state=42
     )
-
-    fold_splits = split_images_into_kfolds(data_path, n_folds=5, stratify=True)
-
     # Create output directory in a writable location
     output_base = Path(
-        "/Users/nelsschimek/Documents/nancelab/Data/gaby_data/vampire_kfold_output"
+        "./output/adult_wm_gm"
     )
 
     all_predictions = []
@@ -1068,7 +1504,7 @@ if __name__ == "__main__":
             fold_name=f'fold_{fold_idx+1}',
             model_name='vampire_kfold',
             num_points=50,
-            num_clusters=5
+            num_clusters=7
         )
         
         all_predictions.append(predictions_df)
@@ -1091,8 +1527,8 @@ if __name__ == "__main__":
     combined_aligned = pd.concat(aligned_predictions, ignore_index=True)
     combined_unaligned = pd.concat(all_predictions, ignore_index=True)
     
-    output_csv_aligned = output_base / 'all_fold_predictions_aligned_by_contours.csv'
-    output_csv_unaligned = output_base / 'all_fold_predictions_unaligned.csv'
+    output_csv_aligned = output_base / 'adult_wm_gm_all_fold_predictions_aligned_by_contours.csv'
+    output_csv_unaligned = output_base / 'adult_wm_gm_all_fold_predictions_unaligned_50.csv'
     
     combined_aligned.to_csv(output_csv_aligned, index=False)
     combined_unaligned.to_csv(output_csv_unaligned, index=False)
@@ -1106,12 +1542,12 @@ if __name__ == "__main__":
     # Compare contours across folds
     compare_contours_across_folds(
         model_paths=model_paths,
-        output_path=plots_dir / 'contours_comparison_grid.png'
+        output_path=plots_dir / 'adult_wm_gm_contours_comparison_grid_50.png'
     )
     
     compare_contours_overlay(
         model_paths=model_paths,
-        output_path=plots_dir / 'contours_overlay.png'
+        output_path=plots_dir / 'adult_wm_gm_contours_overlay_50.png'
     )
     
     print(f"✓ Comparison plots saved to: {plots_dir}")
@@ -1119,7 +1555,7 @@ if __name__ == "__main__":
     # 1. Visual comparison: before vs after alignment
     compare_alignment_effect(
         model_paths=model_paths,
-        output_path=plots_dir / 'alignment_before_after.png',
+        output_path=plots_dir / 'adult_wm_gm_alignment_before_after_50.png',
         reference_fold_idx=0
     )
 
@@ -1130,7 +1566,14 @@ if __name__ == "__main__":
     )
 
     # Save metrics
-    metrics_df.to_csv(plots_dir / 'shape_consistency_metrics.csv', index=False)
+    metrics_df.to_csv(plots_dir / 'adult_wm_gm_shape_consistency_metrics_50.csv', index=False)
 
     print("\nShape Consistency Summary:")
     print(metrics_df.to_string(index=False))
+
+    
+    create_summary_report(
+        predictions_df=combined_aligned,
+        feature_columns=["area", "circularity", "perimeter", "aspect_ratio"],
+        output_dir = plots_dir
+    )
